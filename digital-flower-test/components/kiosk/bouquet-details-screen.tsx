@@ -1,7 +1,7 @@
 "use client"
 
 import { useState } from "react"
-import { useKioskStore, translations, calculateBouquetPrice, mainFlowers, fillerFlowers, greeneryOptions, wrappingOptions } from "@/lib/kiosk-store"
+import { useKioskStore, translations, calculateBouquetPrice, mainFlowers, fillerFlowers, greeneryOptions, wrappingOptions, getBouquetImage } from "@/lib/kiosk-store"
 import { ArchLayout } from "./arch-layout"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
@@ -67,6 +67,7 @@ export function BouquetDetailsScreen({ onHomeClick }: BouquetDetailsScreenProps)
     border: 'none',
     cursor: 'pointer',
     flex: 1,
+    borderRadius: '10px',
   }
 
   return (
@@ -77,21 +78,18 @@ export function BouquetDetailsScreen({ onHomeClick }: BouquetDetailsScreenProps)
     >
       <div className="flex flex-col h-full px-4 pt-2 pb-3 gap-3">
         {/* Bouquet image */}
-        <div style={{ position: 'relative', aspectRatio: '16/9', width: '100%', overflow: 'hidden', flexShrink: 0 }}>
+        <div style={{ position: 'relative', aspectRatio: '3/4', width: '55%', margin: '0 auto', overflow: 'hidden', flexShrink: 0, background: '#EDE2C2', borderRadius: '15%' }}>
           <Image
-            src={selectedBouquet.image}
+            src={getBouquetImage(selectedBouquet, customization.mainFlowerCount)}
             alt={selectedBouquet.name}
             fill
-            className="object-cover"
+            className="object-contain"
           />
         </div>
 
-        {/* Name + description */}
+        {/* Description */}
         <div style={{ textAlign: 'center' }}>
-          <h2 style={{ fontFamily: 'var(--font-serif)', fontSize: '1.1rem', color: '#274324', lineHeight: 1.2 }}>
-            {selectedBouquet.name}
-          </h2>
-          <p style={{ fontFamily: 'var(--font-display)', fontSize: '0.65rem', color: '#724E2A', marginTop: '3px' }}>
+          <p style={{ fontFamily: 'var(--font-display)', fontSize: '0.65rem', color: '#724E2A', margin: 0 }}>
             {selectedBouquet.description}
           </p>
           <p style={{ fontFamily: 'var(--font-display)', fontSize: '0.65rem', color: '#678F74', marginTop: '2px' }}>
@@ -100,7 +98,7 @@ export function BouquetDetailsScreen({ onHomeClick }: BouquetDetailsScreenProps)
         </div>
 
         {/* Note section */}
-        <div style={{ background: 'rgba(103,143,116,0.08)', padding: '0.6rem', borderLeft: '2px solid #678F74' }}>
+        <div style={{ background: 'rgba(103,143,116,0.08)', padding: '0.6rem', borderLeft: '2px solid #678F74', borderRadius: '10px' }}>
           <p style={{ fontFamily: 'var(--font-display)', fontSize: '0.65rem', fontWeight: 700, color: '#274324', marginBottom: '0.4rem' }}>
             {t.details.message}
           </p>
@@ -109,7 +107,7 @@ export function BouquetDetailsScreen({ onHomeClick }: BouquetDetailsScreenProps)
             value={noteMessage}
             onChange={(e) => setNoteMessage(e.target.value)}
             className="min-h-12 mb-2 text-xs resize-none"
-            style={{ fontFamily: 'var(--font-sans)', fontSize: '0.72rem', background: 'rgba(237,226,194,0.6)', border: '1px solid rgba(114,78,42,0.25)' }}
+            style={{ fontFamily: 'var(--font-sans)', fontSize: '0.72rem', background: 'rgba(237,226,194,0.6)', border: '1px solid rgba(114,78,42,0.25)', borderRadius: '8px' }}
           />
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
             <span style={{ fontFamily: 'var(--font-display)', fontSize: '0.6rem', color: '#724E2A', whiteSpace: 'nowrap' }}>{t.details.from}:</span>
@@ -118,20 +116,20 @@ export function BouquetDetailsScreen({ onHomeClick }: BouquetDetailsScreenProps)
               value={noteFrom}
               onChange={(e) => setNoteFrom(e.target.value)}
               className="flex-1 text-xs h-7"
-              style={{ fontFamily: 'var(--font-sans)', fontSize: '0.72rem', background: 'rgba(237,226,194,0.6)', border: '1px solid rgba(114,78,42,0.25)' }}
+              style={{ fontFamily: 'var(--font-sans)', fontSize: '0.72rem', background: 'rgba(237,226,194,0.6)', border: '1px solid rgba(114,78,42,0.25)', borderRadius: '8px' }}
             />
           </div>
         </div>
 
         {/* Price */}
         <div style={{ textAlign: 'center' }}>
-          <span style={{ fontFamily: 'var(--font-serif)', fontSize: '1.5rem', color: '#FDAA5C', fontWeight: 600 }}>
+          <span style={{ fontFamily: "'Pouler', var(--font-serif)", fontSize: '2rem', color: '#FDAA5C', fontWeight: 400 }}>
             {price.toFixed(2)} EUR
           </span>
         </div>
 
         {/* Action buttons */}
-        <div style={{ display: 'flex', gap: '0.4rem', marginTop: 'auto' }}>
+        <div style={{ display: 'flex', gap: '0.4rem', marginTop: 'auto', paddingBottom: '1rem' }}>
           <button onClick={handleCustomize} style={{ ...btnBase, background: '#678F74', color: '#EDE2C2' }}>
             {t.details.customize}
           </button>
@@ -143,7 +141,7 @@ export function BouquetDetailsScreen({ onHomeClick }: BouquetDetailsScreenProps)
               </span>
             )}
           </button>
-          <button onClick={() => setScreen("recommendations")} style={{ ...btnBase, background: 'transparent', color: '#678F74', border: '1.5px solid #678F74', flex: 0.7 }}>
+          <button onClick={() => setScreen("recommendations")} style={{ ...btnBase, background: 'transparent', color: '#678F74', border: '1.5px solid #678F74', flex: 0.7, borderRadius: '10px' }}>
             {t.details.chooseDifferent}
           </button>
         </div>

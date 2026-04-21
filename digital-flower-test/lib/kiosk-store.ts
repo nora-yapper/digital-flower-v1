@@ -56,10 +56,16 @@ export interface Bouquet {
   description: string
   color: string
   image: string
+  imageVariants?: Partial<Record<3 | 5 | 7, string>>
   priceIndicator: '$' | '$$' | '$$$'
   basePrice: number
   recipients: Recipient[]
   occasions: Occasion[]
+}
+
+export function getBouquetImage(bouquet: Bouquet, count?: 3 | 5 | 7): string {
+  if (count && bouquet.imageVariants?.[count]) return bouquet.imageVariants[count]!
+  return bouquet.image
 }
 
 export interface BouquetCustomization {
@@ -87,9 +93,9 @@ export const mainFlowers: Flower[] = [
   { id: 'rose', name: 'Rose', image: '/images/main-flowers/rose.png' },
   { id: 'tulip', name: 'Tulip', image: '/images/main-flowers/tulip.png' },
   { id: 'lily', name: 'Lily', image: '/images/main-flowers/lily.png' },
-  { id: 'orchid', name: 'Orchid', image: 'https://images.unsplash.com/photo-1524593166156-312f362cada0?w=120&h=120&fit=crop&auto=format' },
-  { id: 'peony', name: 'Peony', image: 'https://images.unsplash.com/photo-1587392879738-baca04e9aee3?w=120&h=120&fit=crop&auto=format' },
-  { id: 'carnation', name: 'Carnation', image: 'https://images.unsplash.com/photo-1553531384-397c80973a0b?w=120&h=120&fit=crop&auto=format' },
+  { id: 'orchid', name: 'Orchid', image: '/images/main-flowers/orchid.png' },
+  { id: 'peony', name: 'Peony', image: '/images/main-flowers/peony.png' },
+  { id: 'carnation', name: 'Carnation', image: '/images/main-flowers/carnation.png' },
 ]
 
 export const fillerFlowers: Flower[] = [
@@ -120,12 +126,12 @@ export const wrappingOptions: Wrapping[] = [
 
 export const sampleBouquets: Bouquet[] = [
   // Valentine's / Anniversary bouquets for lovers
-  { id: 'red-rose-classic', name: 'Red Rose Classic', description: 'Red roses with baby\'s breath, eucalyptus & ruscus in red wrap', color: 'Deep Red', image: 'https://images.unsplash.com/photo-1518895949257-7621c3c786d7?w=300&h=300&fit=crop&auto=format', priceIndicator: '$$', basePrice: 35, recipients: ['lover'], occasions: ['valentine', 'anniversary'] },
-  { id: 'romantic-blush', name: 'Romantic Blush', description: 'Pink roses with waxflower, eucalyptus & myrtle in pink pastel wrap', color: 'Blush Pink', image: 'https://images.unsplash.com/photo-1485196978736-1f926c24b7fb?w=300&h=300&fit=crop&auto=format', priceIndicator: '$', basePrice: 28, recipients: ['lover'], occasions: ['valentine', 'anniversary'] },
-  { id: 'passion-bouquet', name: 'Passion Bouquet', description: 'Luxurious peonies with statice, ivy & fern in red wrap', color: 'Red & Pink', image: 'https://images.unsplash.com/photo-1587392879738-baca04e9aee3?w=300&h=300&fit=crop&auto=format', priceIndicator: '$$$', basePrice: 55, recipients: ['lover'], occasions: ['valentine', 'anniversary'] },
-  { id: 'eternal-love', name: 'Eternal Love', description: 'White roses with caspia, eucalyptus & pittosporum in white wrap', color: 'Pure White', image: 'https://images.unsplash.com/photo-1574158622682-e40e69881006?w=300&h=300&fit=crop&auto=format', priceIndicator: '$$', basePrice: 40, recipients: ['lover'], occasions: ['valentine', 'anniversary'] },
-  { id: 'heart-aflutter', name: 'Heart Aflutter', description: 'Colorful tulips with aster, ruscus & fern in pink pastel wrap', color: 'Mixed Pastels', image: 'https://images.unsplash.com/photo-1520399580965-c77de30de4da?w=300&h=300&fit=crop&auto=format', priceIndicator: '$', basePrice: 25, recipients: ['lover'], occasions: ['valentine', 'anniversary'] },
-  { id: 'velvet-dreams', name: 'Velvet Dreams', description: 'Deep burgundy peonies with veronica, eucalyptus & ivy in black wrap', color: 'Burgundy', image: 'https://images.unsplash.com/photo-1508197239992-914fe5a4a5d3?w=300&h=300&fit=crop&auto=format', priceIndicator: '$$$', basePrice: 60, recipients: ['lover'], occasions: ['valentine', 'anniversary'] },
+  { id: 'red-rose-classic', name: 'Red Rose Classic', description: 'Red roses with baby\'s breath, eucalyptus & ruscus in red wrap', color: 'Deep Red', image: '/images/bouquets/red-rose-classic-3.png', imageVariants: { 3: '/images/bouquets/red-rose-classic-3.png', 5: '/images/bouquets/red-rose-classic-5.png', 7: '/images/bouquets/red-rose-classic-7.png' }, priceIndicator: '$$', basePrice: 35, recipients: ['lover'], occasions: ['valentine', 'anniversary'] },
+  { id: 'romantic-blush', name: 'Romantic Blush', description: 'Pink roses with waxflower, eucalyptus & myrtle in pink pastel wrap', color: 'Blush Pink', image: '/images/bouquets/romantic-blush-3.png', imageVariants: { 3: '/images/bouquets/romantic-blush-3.png', 5: '/images/bouquets/romantic-blush-5.png', 7: '/images/bouquets/romantic-blush-7.png' }, priceIndicator: '$', basePrice: 28, recipients: ['lover'], occasions: ['valentine', 'anniversary'] },
+  { id: 'passion-bouquet', name: 'Passion Bouquet', description: 'Luxurious peonies with statice, ivy & fern in red wrap', color: 'Red & Pink', image: '/images/bouquets/passion-bouquet.png', priceIndicator: '$$$', basePrice: 55, recipients: ['lover'], occasions: ['valentine', 'anniversary'] },
+  { id: 'eternal-love', name: 'Eternal Love', description: 'White roses with caspia, eucalyptus & pittosporum in white wrap', color: 'Pure White', image: '/images/bouquets/eternal-love.png', priceIndicator: '$$', basePrice: 40, recipients: ['lover'], occasions: ['valentine', 'anniversary'] },
+  { id: 'heart-aflutter', name: 'Heart Aflutter', description: 'Colorful tulips with aster, ruscus & fern in pink pastel wrap', color: 'Mixed Pastels', image: '/images/bouquets/heart-aflutter.png', priceIndicator: '$', basePrice: 25, recipients: ['lover'], occasions: ['valentine', 'anniversary'] },
+  { id: 'velvet-dreams', name: 'Velvet Dreams', description: 'Deep burgundy peonies with veronica, eucalyptus & ivy in black wrap', color: 'Burgundy', image: '/images/bouquets/velvet-dreams.png', priceIndicator: '$$$', basePrice: 60, recipients: ['lover'], occasions: ['valentine', 'anniversary'] },
   { id: 'sunset-romance', name: 'Sunset Romance', description: 'Coral roses with waxflower, myrtle & pittosporum in kraft wrap', color: 'Coral Sunset', image: 'https://images.unsplash.com/photo-1499830847023-c550f97dc3e3?w=300&h=300&fit=crop&auto=format', priceIndicator: '$$', basePrice: 38, recipients: ['lover'], occasions: ['valentine', 'anniversary'] },
   { id: 'moonlight-serenade', name: 'Moonlight Serenade', description: 'White lilies with baby\'s breath, eucalyptus & ruscus in white wrap', color: 'White & Green', image: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=300&h=300&fit=crop&auto=format', priceIndicator: '$$$', basePrice: 52, recipients: ['lover'], occasions: ['valentine', 'anniversary'] },
   { id: 'first-kiss', name: 'First Kiss', description: 'Pink carnations with statice, myrtle & fern in pink pastel wrap', color: 'Soft Pink', image: 'https://images.unsplash.com/photo-1553531384-397c80973a0b?w=300&h=300&fit=crop&auto=format', priceIndicator: '$$', basePrice: 42, recipients: ['lover'], occasions: ['valentine', 'anniversary'] },
@@ -450,7 +456,7 @@ export function getValidOccasions(recipient: Recipient): Occasion[] {
 export function filterBouquets(recipient: Recipient, occasion: Occasion): Bouquet[] {
   return sampleBouquets.filter(
     (b) => b.recipients.includes(recipient) && b.occasions.includes(occasion)
-  ).slice(0, 9)
+  ).slice(0, 6)
 }
 
 // Default customization

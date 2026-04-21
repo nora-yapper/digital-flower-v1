@@ -1,7 +1,7 @@
 "use client"
 
 import { useState } from "react"
-import { useKioskStore, translations, mainFlowers, fillerFlowers, greeneryOptions, wrappingOptions, calculateBouquetPrice } from "@/lib/kiosk-store"
+import { useKioskStore, translations, mainFlowers, fillerFlowers, greeneryOptions, wrappingOptions, calculateBouquetPrice, getBouquetImage } from "@/lib/kiosk-store"
 import { ArchLayout } from "./arch-layout"
 import Image from "next/image"
 
@@ -77,7 +77,7 @@ export function CustomizationScreen({ onHomeClick }: CustomizationScreenProps) {
                   onClick={() => updateCustomization({ mainFlower: flower })}
                   style={optionCard(customization.mainFlower?.id === flower.id)}
                 >
-                  <div style={{ position: 'relative', aspectRatio: '1', width: '100%', overflow: 'hidden' }}>
+                  <div style={{ position: 'relative', aspectRatio: '1', width: '100%', overflow: 'hidden', borderRadius: '6px' }}>
                     <Image src={flower.image} alt={flower.name} fill className="object-cover" />
                     {customization.mainFlower?.id === flower.id && (
                       <div style={{ position: 'absolute', top: '3px', right: '3px', background: '#678F74', borderRadius: '50%', width: '14px', height: '14px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
@@ -122,7 +122,7 @@ export function CustomizationScreen({ onHomeClick }: CustomizationScreenProps) {
                 onClick={() => updateCustomization({ fillerFlower: flower })}
                 style={optionCard(customization.fillerFlower?.id === flower.id)}
               >
-                <div style={{ position: 'relative', aspectRatio: '1', width: '100%', overflow: 'hidden' }}>
+                <div style={{ position: 'relative', aspectRatio: '1', width: '100%', overflow: 'hidden', borderRadius: '6px' }}>
                   <Image src={flower.image} alt={flower.name} fill className="object-cover" />
                   {customization.fillerFlower?.id === flower.id && (
                     <div style={{ position: 'absolute', top: '3px', right: '3px', background: '#678F74', borderRadius: '50%', width: '14px', height: '14px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
@@ -159,7 +159,7 @@ export function CustomizationScreen({ onHomeClick }: CustomizationScreenProps) {
                     }}
                     style={optionCard(isSelected, !canSelect)}
                   >
-                    <div style={{ position: 'relative', aspectRatio: '1', width: '100%', overflow: 'hidden' }}>
+                    <div style={{ position: 'relative', aspectRatio: '1', width: '100%', overflow: 'hidden', borderRadius: '6px' }}>
                       <Image src={green.image} alt={green.name} fill className="object-cover" />
                       {isSelected && (
                         <div style={{ position: 'absolute', top: '3px', right: '3px', background: '#678F74', borderRadius: '50%', width: '14px', height: '14px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
@@ -187,7 +187,7 @@ export function CustomizationScreen({ onHomeClick }: CustomizationScreenProps) {
                 onClick={() => updateCustomization({ wrapping: wrap })}
                 style={optionCard(customization.wrapping?.id === wrap.id)}
               >
-                <div style={{ position: 'relative', aspectRatio: '1', width: '100%', overflow: 'hidden' }}>
+                <div style={{ position: 'relative', aspectRatio: '1', width: '100%', overflow: 'hidden', borderRadius: '6px' }}>
                   <Image src={wrap.image} alt={wrap.name} fill className="object-cover" />
                   {customization.wrapping?.id === wrap.id && (
                     <div style={{ position: 'absolute', top: '3px', right: '3px', background: '#678F74', borderRadius: '50%', width: '14px', height: '14px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
@@ -245,8 +245,8 @@ export function CustomizationScreen({ onHomeClick }: CustomizationScreenProps) {
 
         {/* Price bar */}
         <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', padding: '0.5rem 0.6rem', background: 'rgba(103,143,116,0.1)', borderTop: '1.5px solid rgba(103,143,116,0.25)', flexShrink: 0 }}>
-          <div style={{ position: 'relative', width: '36px', height: '36px', overflow: 'hidden', flexShrink: 0 }}>
-            <Image src={selectedBouquet.image} alt={selectedBouquet.name} fill className="object-cover" />
+          <div style={{ position: 'relative', width: '36px', height: '36px', overflow: 'hidden', flexShrink: 0, borderRadius: '6px' }}>
+            <Image src={getBouquetImage(selectedBouquet, customization.mainFlowerCount)} alt={selectedBouquet.name} fill className="object-contain" />
           </div>
           <div style={{ flex: 1, minWidth: 0 }}>
             <p style={{ fontFamily: 'var(--font-serif)', fontSize: '0.7rem', color: '#274324', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>

@@ -13,7 +13,7 @@ export function RecommendationsScreen({ onHomeClick }: RecommendationsScreenProp
 
   const displayBouquets = sampleBouquets.filter((b) =>
     recipient && occasion && b.recipients.includes(recipient) && b.occasions.includes(occasion)
-  ).slice(0, 9)
+  ).slice(0, 6)
 
   const handleSelectBouquet = (bouquet: Bouquet) => {
     setSelectedBouquet(bouquet)
@@ -83,7 +83,7 @@ export function RecommendationsScreen({ onHomeClick }: RecommendationsScreenProp
 
         {/* 3×3 grid */}
         {displayBouquets.length > 0 ? (
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '0.4rem', flex: 1, minHeight: 0 }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '0.4rem', flex: 1, minHeight: 0, paddingBottom: '2rem', paddingTop: '2rem' }}>
             {displayBouquets.map((bouquet) => (
               <button
                 key={bouquet.id}
@@ -91,11 +91,12 @@ export function RecommendationsScreen({ onHomeClick }: RecommendationsScreenProp
                 style={{
                   background: 'none',
                   border: '2px solid #724E2A',
+                  borderRadius: '10px',
                   cursor: 'pointer',
                   padding: 0,
                   overflow: 'hidden',
                   position: 'relative',
-                  aspectRatio: '1',
+                  aspectRatio: '3/4',
                   display: 'block',
                 }}
               >
@@ -103,7 +104,8 @@ export function RecommendationsScreen({ onHomeClick }: RecommendationsScreenProp
                   src={bouquet.image}
                   alt={bouquet.name}
                   fill
-                  className="object-cover"
+                  className="object-contain"
+                  style={{ background: '#EDE2C2' }}
                 />
                 {/* Text overlay at bottom */}
                 <div style={{

@@ -17,9 +17,6 @@ export function ArchLayout({ children, onBack, onHome, title }: ArchLayoutProps)
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img src="/svgs/ornament-top.svg" alt="" aria-hidden="true" style={{ position: 'absolute', top: '0.5%', left: '15%', width: '70%', height: '10%', objectFit: 'fill', zIndex: 10, pointerEvents: 'none' }} />
 
-      {/* Bottom ornament */}
-      {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img src="/svgs/ornament-bottom.svg" alt="" aria-hidden="true" style={{ position: 'absolute', bottom: '0.5%', left: '15%', width: '70%', height: '10%', objectFit: 'fill', zIndex: 10, pointerEvents: 'none', transform: 'scaleY(-1)' }} />
 
       {/* Back nav */}
       {onBack && (
@@ -58,15 +55,15 @@ export function ArchLayout({ children, onBack, onHome, title }: ArchLayoutProps)
 
       {/* Title in arch area */}
       {title && (
-        <div style={{ position: 'absolute', top: '10%', left: '3%', right: '3%', textAlign: 'center', zIndex: 5, pointerEvents: 'none' }}>
-          <h1 style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '1.1rem', color: '#274324', margin: 0 }}>
+        <div style={{ position: 'absolute', top: '13%', left: '3%', right: '3%', textAlign: 'center', zIndex: 5, pointerEvents: 'none' }}>
+          <h1 style={{ fontFamily: "'Pouler', var(--font-serif)", fontWeight: 400, fontSize: '1.35rem', color: '#274324', margin: 0 }}>
             {title}
           </h1>
         </div>
       )}
 
       {/* Content area — starts below arch, bounded so children h-full works */}
-      <div style={{ position: 'absolute', top: '22%', left: '3%', right: '3%', bottom: '3%', zIndex: 5, display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
+      <div style={{ position: 'absolute', top: '16%', left: '3%', right: '3%', bottom: '3%', zIndex: 5, display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
         <div className="flex-1 min-h-0 flex flex-col overflow-auto">
           {children}
         </div>
