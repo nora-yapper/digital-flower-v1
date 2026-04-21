@@ -7,37 +7,54 @@ export function WelcomeScreen() {
   const { language, setLanguage, setScreen } = useKioskStore()
   const t = translations[language]
 
-  // Language selection is decoupled from navigation — user picks then taps Next
-  const [selectedLang, setSelectedLang] = useState<'en' | 'hr'>(language)
+  const [hoveredBtn, setHoveredBtn] = useState<string | null>(null)
 
-  const handleNext = () => {
-    setLanguage(selectedLang)
-    setScreen("mode-selection")
-  }
+  const handleNext = () => setScreen("mode-selection")
 
-  // Split title: first two words = greeting, rest = shop name
   const words = t.welcome.title.split(' ')
-  const greeting = words.slice(0, 2).join(' ')        // "Welcome to" / "Dobrodosli u"
-  const shopName = words.slice(2).join(' ').toUpperCase() // "THE FLOWER SHOP" / "CVJEĆARNICU"
+  const greeting = words.slice(0, 2).join(' ')
+  const shopName = words.slice(2).join(' ').toUpperCase()
 
-  const btnStyle = (active: boolean): React.CSSProperties => ({
-    flex: 1,
-    padding: '0.55rem 0.25rem',
-    background: '#EDE2C2',
+  const btnStyle = (id: string): React.CSSProperties => ({
+    position: 'relative',
+    zIndex: 1,
+    width: '100%',
+    padding: '0.85rem 0.5rem',
+    background: hoveredBtn === id ? '#F5EDD4' : '#EDE2C2',
     color: '#274324',
     fontFamily: 'var(--font-display)',
-    fontSize: '0.85rem',
+    fontSize: '0.95rem',
     fontWeight: 400,
-    border: active ? '2.5px solid #274324' : '2px solid #724E2A',
+    border: hoveredBtn === id ? '2.5px solid #F5C06A' : '2.5px solid #FDAA5C',
+    borderRadius: '10px',
     cursor: 'pointer',
     letterSpacing: '0.02em',
-    boxShadow: active ? 'inset 0 0 0 1px #FDAA5C' : 'none',
+    transform: hoveredBtn === id ? 'scale(1.04)' : 'scale(1)',
+    transition: 'background 0.15s ease, border-color 0.15s ease, transform 0.12s ease',
   })
 
   return (
     <div style={{ width: '100%', height: '100%', background: '#EDE2C2', position: 'relative', overflow: 'hidden' }}>
 
-      {/* ── Top ornament: overlaps top of oval ── */}
+      {/* ── Yellow frame ── */}
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img
+        src="/svgs/frame.svg"
+        alt=""
+        aria-hidden="true"
+        style={{
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          width: '100%',
+          height: '100%',
+          objectFit: 'fill',
+          zIndex: 20,
+          pointerEvents: 'none',
+        }}
+      />
+
+      {/* ── Top ornament ── */}
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
         src="/svgs/ornament-top.svg"
@@ -73,7 +90,7 @@ export function WelcomeScreen() {
         }}
       />
 
-      {/* ── Bottom ornament: overlaps bottom of oval, flipped ── */}
+      {/* ── Bottom ornament ── */}
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
         src="/svgs/ornament-bottom.svg"
@@ -92,7 +109,7 @@ export function WelcomeScreen() {
         }}
       />
 
-      {/* ── Content layer — sits above oval, below ornaments ── */}
+      {/* ── Content layer ── */}
       <div
         style={{
           position: 'absolute',
@@ -106,8 +123,11 @@ export function WelcomeScreen() {
           alignItems: 'center',
         }}
       >
-        {/* Title block — ~19% from oval top */}
-        <div style={{ marginTop: '19%', textAlign: 'center', width: '90%' }}>
+        {/* Text content — centered in the space above the buttons */}
+        <div style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: '32%', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
+
+        {/* Title block */}
+        <div style={{ textAlign: 'center', width: '90%' }}>
           <p
             style={{
               fontFamily: "'Pouler', var(--font-serif)",
@@ -166,52 +186,64 @@ export function WelcomeScreen() {
           {t.welcome.tagline}
         </p>
 
-        {/* Language row: [English] [leaf] [Hrvatski] */}
-        <div
-          style={{
-            marginTop: '8%',
-            display: 'flex',
-            alignItems: 'center',
-            gap: '0.5rem',
-            width: '82%',
-          }}
-        >
-          <button onClick={() => setSelectedLang('en')} style={btnStyle(selectedLang === 'en')}>
-            English
-          </button>
+        </div>{/* end text content wrapper */}
 
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src="/svgs/leaf-logo.svg"
-            alt=""
-            aria-hidden="true"
-            style={{ width: '38px', height: 'auto', flexShrink: 0 }}
-          />
+        {/* Button area — fixed position so text length above never shifts it */}
+        <div style={{ position: 'absolute', bottom: '22%', width: '82%', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0' }}>
 
-          <button onClick={() => setSelectedLang('hr')} style={btnStyle(selectedLang === 'hr')}>
-            Hrvatski
+          {/* Language buttons */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', width: '100%' }}>
+            {(['en', 'hr'] as const).map((lang) => (
+              <div
+                key={lang}
+                style={{ flex: 1, position: 'relative', display: 'flex', justifyContent: 'center' }}
+              >
+                {language === lang && (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img
+                    src="/svgs/leaf-green.svg"
+                    alt=""
+                    aria-hidden="true"
+                    style={{
+                      position: 'absolute',
+                      bottom: '25%',
+                      left: '50%',
+                      transform: 'translateX(-50%)',
+                      width: '160px',
+                      height: 'auto',
+                      zIndex: 0,
+                      pointerEvents: 'none',
+                    }}
+                  />
+                )}
+                <button
+                  onClick={() => setLanguage(lang)}
+                  onMouseEnter={() => { setLanguage(lang); setHoveredBtn(lang) }}
+                  onMouseLeave={() => setHoveredBtn(null)}
+                  style={btnStyle(lang)}
+                >
+                  {lang === 'en' ? 'English' : 'Hrvatski'}
+                </button>
+              </div>
+            ))}
+          </div>
+
+          {/* Next button */}
+          <button
+            onClick={handleNext}
+            onMouseEnter={() => setHoveredBtn('next')}
+            onMouseLeave={() => setHoveredBtn(null)}
+            style={{
+              ...btnStyle('next'),
+              marginTop: '1rem',
+              padding: '0.85rem 0',
+              width: '50%',
+              letterSpacing: '0.04em',
+            }}
+          >
+            {language === 'hr' ? 'Dalje' : 'Next'}
           </button>
         </div>
-
-        {/* Next button */}
-        <button
-          onClick={handleNext}
-          style={{
-            marginTop: '3.5%',
-            padding: '0.55rem 0',
-            width: '50%',
-            background: '#EDE2C2',
-            color: '#274324',
-            fontFamily: 'var(--font-display)',
-            fontSize: '0.85rem',
-            fontWeight: 400,
-            border: '2px solid #724E2A',
-            cursor: 'pointer',
-            letterSpacing: '0.04em',
-          }}
-        >
-          Next
-        </button>
       </div>
     </div>
   )

@@ -95,7 +95,7 @@ export function BouquetDetailsScreen({ onHomeClick }: BouquetDetailsScreenProps)
             {selectedBouquet.description}
           </p>
           <p style={{ fontFamily: 'var(--font-display)', fontSize: '0.65rem', color: '#678F74', marginTop: '2px' }}>
-            {t.details.color}: {selectedBouquet.color}
+            {t.details.color}: {t.colors[selectedBouquet.color] ?? selectedBouquet.color}
           </p>
         </div>
 

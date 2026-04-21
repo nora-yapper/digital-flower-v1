@@ -1,5 +1,6 @@
 "use client"
 
+import { useState } from "react"
 import { useKioskStore, translations, type Recipient } from "@/lib/kiosk-store"
 import { OvalLayout } from "./oval-layout"
 
@@ -7,16 +8,18 @@ interface RecipientScreenProps {
   onHomeClick: () => void
 }
 
-const recipientEmoji: Record<Recipient, string> = {
-  lover: '♥',
-  friend: '☺',
-  family: '⁂',
-  deceased: '✦',
+const recipientIcon: Record<Recipient, string> = {
+  lover: '/svgs/icons/icon-lover.svg',
+  friend: '/svgs/icons/icon-friend.svg',
+  family: '/svgs/icons/icon-family.svg',
+  deceased: '/svgs/icons/icon-deceased.svg',
 }
 
 export function RecipientScreen({ onHomeClick }: RecipientScreenProps) {
   const { language, setRecipient, setScreen } = useKioskStore()
   const t = translations[language]
+
+  const [hoveredBtn, setHoveredBtn] = useState<string | null>(null)
 
   const recipients: { id: Recipient; label: string }[] = [
     { id: 'lover', label: t.recipients.lover },
@@ -29,6 +32,21 @@ export function RecipientScreen({ onHomeClick }: RecipientScreenProps) {
     setRecipient(recipient)
     setScreen("occasion")
   }
+
+  const btnStyle = (id: string): React.CSSProperties => ({
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: '1rem 0.5rem',
+    background: hoveredBtn === id ? 'rgba(247, 208, 141, 0.22)' : 'rgba(247, 208, 141, 0.12)',
+    border: hoveredBtn === id ? '2.5px solid #FDAA5C' : '2px solid rgba(247, 208, 141, 0.45)',
+    borderRadius: '10px',
+    cursor: 'pointer',
+    gap: '0.4rem',
+    transform: hoveredBtn === id ? 'scale(1.05)' : 'scale(1)',
+    transition: 'background 0.15s ease, border-color 0.15s ease, transform 0.12s ease',
+  })
 
   return (
     <OvalLayout onBack={() => setScreen("mode-selection")} onHome={onHomeClick}>
@@ -51,11 +69,12 @@ export function RecipientScreen({ onHomeClick }: RecipientScreenProps) {
         {/* Title */}
         <h1
           style={{
-            fontFamily: 'var(--font-serif)',
-            fontSize: '1.3rem',
-            color: '#F7D08D',
+            fontFamily: "'Pouler', var(--font-serif)",
+            fontSize: '1.4rem',
+            color: '#FFFFFF',
             textAlign: 'center',
             lineHeight: 1.3,
+            letterSpacing: '0.04em',
           }}
         >
           {t.recipients.title}
@@ -67,21 +86,12 @@ export function RecipientScreen({ onHomeClick }: RecipientScreenProps) {
             <button
               key={recipient.id}
               onClick={() => handleSelect(recipient.id)}
-              style={{
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'center',
-                justifyContent: 'center',
-                padding: '1rem 0.5rem',
-                background: 'rgba(247, 208, 141, 0.12)',
-                border: '1.5px solid rgba(247, 208, 141, 0.45)',
-                cursor: 'pointer',
-                gap: '0.4rem',
-              }}
+              onMouseEnter={() => setHoveredBtn(recipient.id)}
+              onMouseLeave={() => setHoveredBtn(null)}
+              style={btnStyle(recipient.id)}
             >
-              <span style={{ fontSize: '1.4rem', color: '#FDAA5C', lineHeight: 1 }}>
-                {recipientEmoji[recipient.id]}
-              </span>
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src={recipientIcon[recipient.id]} alt="" aria-hidden="true" style={{ width: '56px', height: '56px', objectFit: 'contain' }} />
               <span style={{ fontFamily: 'var(--font-serif)', fontSize: '0.85rem', color: '#EDE2C2', fontWeight: 500 }}>
                 {recipient.label}
               </span>

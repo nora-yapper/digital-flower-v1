@@ -85,7 +85,7 @@ export function CustomizationScreen({ onHomeClick }: CustomizationScreenProps) {
                       </div>
                     )}
                   </div>
-                  <span style={{ fontFamily: 'var(--font-display)', fontSize: '0.58rem', color: '#274324', textAlign: 'center' }}>{flower.name}</span>
+                  <span style={{ fontFamily: 'var(--font-display)', fontSize: '0.58rem', color: '#274324', textAlign: 'center' }}>{t.flora[flower.id] ?? flower.name}</span>
                 </button>
               ))}
             </div>
@@ -167,7 +167,7 @@ export function CustomizationScreen({ onHomeClick }: CustomizationScreenProps) {
                         </div>
                       )}
                     </div>
-                    <span style={{ fontFamily: 'var(--font-display)', fontSize: '0.58rem', color: '#274324', textAlign: 'center' }}>{green.name}</span>
+                    <span style={{ fontFamily: 'var(--font-display)', fontSize: '0.58rem', color: '#274324', textAlign: 'center' }}>{t.flora[green.id] ?? green.name}</span>
                   </button>
                 )
               })}
@@ -200,7 +200,7 @@ export function CustomizationScreen({ onHomeClick }: CustomizationScreenProps) {
                     </div>
                   )}
                 </div>
-                <span style={{ fontFamily: 'var(--font-display)', fontSize: '0.58rem', color: '#274324', textAlign: 'center' }}>{wrap.name}</span>
+                <span style={{ fontFamily: 'var(--font-display)', fontSize: '0.58rem', color: '#274324', textAlign: 'center' }}>{t.flora[wrap.id] ?? wrap.name}</span>
               </button>
             ))}
           </div>

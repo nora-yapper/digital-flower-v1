@@ -1,24 +1,26 @@
 "use client"
 
-import { useKioskStore, translations, type Occasion } from "@/lib/kiosk-store"
+import { useState } from "react"
+import { useKioskStore, translations, getValidOccasions, type Occasion } from "@/lib/kiosk-store"
 import { OvalLayout } from "./oval-layout"
 
 interface OccasionScreenProps {
   onHomeClick: () => void
 }
 
-const occasionEmoji: Record<Occasion, string> = {
-  valentine: '♥',
-  anniversary: '◈',
-  platonic: '✦',
-  sacrament: '✙',
+const occasionIcon: Record<Occasion, string> = {
+  valentine: '/svgs/icons/icon-valentine.svg',
+  anniversary: '/svgs/icons/icon-anniversary.svg',
+  platonic: '/svgs/icons/icon-platonic.svg',
+  sacrament: '/svgs/icons/icon-sacrament.svg',
 }
-
-const disabledForDeceased: Occasion[] = ['valentine', 'anniversary']
 
 export function OccasionScreen({ onHomeClick }: OccasionScreenProps) {
   const { language, recipient, setOccasion, setScreen } = useKioskStore()
   const t = translations[language]
+
+  const validOccasions = recipient ? getValidOccasions(recipient) : []
+  const [hoveredBtn, setHoveredBtn] = useState<string | null>(null)
 
   const occasions: { id: Occasion; label: string }[] = [
     { id: 'valentine', label: t.occasions.valentine },
@@ -27,18 +29,38 @@ export function OccasionScreen({ onHomeClick }: OccasionScreenProps) {
     { id: 'sacrament', label: t.occasions.sacrament },
   ]
 
-  const isDisabled = (occasionId: Occasion): boolean => {
-    if (recipient === 'deceased' && disabledForDeceased.includes(occasionId)) {
-      return true
-    }
-    return false
-  }
+  const isDisabled = (occasionId: Occasion): boolean =>
+    !validOccasions.includes(occasionId)
 
   const handleSelect = (occasion: Occasion) => {
     if (isDisabled(occasion)) return
     setOccasion(occasion)
     setScreen("recommendations")
   }
+
+  const btnStyle = (id: string, disabled: boolean): React.CSSProperties => ({
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: '1rem 0.5rem',
+    background: disabled
+      ? 'rgba(247, 208, 141, 0.04)'
+      : hoveredBtn === id
+        ? 'rgba(247, 208, 141, 0.22)'
+        : 'rgba(247, 208, 141, 0.12)',
+    border: disabled
+      ? '1.5px solid rgba(247, 208, 141, 0.15)'
+      : hoveredBtn === id
+        ? '2.5px solid #FDAA5C'
+        : '2px solid rgba(247, 208, 141, 0.45)',
+    borderRadius: '10px',
+    cursor: disabled ? 'not-allowed' : 'pointer',
+    opacity: disabled ? 0.35 : 1,
+    gap: '0.4rem',
+    transform: !disabled && hoveredBtn === id ? 'scale(1.05)' : 'scale(1)',
+    transition: 'background 0.15s ease, border-color 0.15s ease, transform 0.12s ease',
+  })
 
   return (
     <OvalLayout onBack={() => setScreen("recipient")} onHome={onHomeClick}>
@@ -61,11 +83,12 @@ export function OccasionScreen({ onHomeClick }: OccasionScreenProps) {
         {/* Title */}
         <h1
           style={{
-            fontFamily: 'var(--font-serif)',
-            fontSize: '1.3rem',
-            color: '#F7D08D',
+            fontFamily: "'Pouler', var(--font-serif)",
+            fontSize: '1.4rem',
+            color: '#FFFFFF',
             textAlign: 'center',
             lineHeight: 1.3,
+            letterSpacing: '0.04em',
           }}
         >
           {t.occasions.title}
@@ -79,23 +102,13 @@ export function OccasionScreen({ onHomeClick }: OccasionScreenProps) {
               <button
                 key={occasion.id}
                 onClick={() => handleSelect(occasion.id)}
+                onMouseEnter={() => !disabled && setHoveredBtn(occasion.id)}
+                onMouseLeave={() => setHoveredBtn(null)}
                 disabled={disabled}
-                style={{
-                  display: 'flex',
-                  flexDirection: 'column',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  padding: '1rem 0.5rem',
-                  background: disabled ? 'rgba(247, 208, 141, 0.04)' : 'rgba(247, 208, 141, 0.12)',
-                  border: `1.5px solid ${disabled ? 'rgba(247, 208, 141, 0.15)' : 'rgba(247, 208, 141, 0.45)'}`,
-                  cursor: disabled ? 'not-allowed' : 'pointer',
-                  opacity: disabled ? 0.35 : 1,
-                  gap: '0.4rem',
-                }}
+                style={btnStyle(occasion.id, disabled)}
               >
-                <span style={{ fontSize: '1.4rem', color: '#FDAA5C', lineHeight: 1 }}>
-                  {occasionEmoji[occasion.id]}
-                </span>
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src={occasionIcon[occasion.id]} alt="" aria-hidden="true" style={{ width: '56px', height: '56px', objectFit: 'contain', opacity: disabled ? 0.4 : 1 }} />
                 <span style={{ fontFamily: 'var(--font-serif)', fontSize: '0.85rem', color: '#EDE2C2', fontWeight: 500 }}>
                   {occasion.label}
                 </span>

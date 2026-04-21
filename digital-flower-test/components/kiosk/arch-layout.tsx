@@ -11,69 +11,62 @@ interface ArchLayoutProps {
 
 export function ArchLayout({ children, onBack, onHome, title }: ArchLayoutProps) {
   return (
-    <div className="h-full relative overflow-hidden" style={{ background: '#678F74' }}>
-      {/* Arch background SVG */}
-      {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img
-        src="/svgs/arch-bg.svg"
-        alt=""
-        aria-hidden="true"
-        className="absolute inset-0 pointer-events-none"
-        style={{ width: '100%', height: '100%', objectFit: 'fill' }}
-      />
+    <div style={{ width: '100%', height: '100%', background: '#678F74', position: 'relative', overflow: 'hidden' }}>
 
-      {/* Back corner tile (top-left) */}
+      {/* Top ornament */}
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img src="/svgs/ornament-top.svg" alt="" aria-hidden="true" style={{ position: 'absolute', top: '0.5%', left: '15%', width: '70%', height: '10%', objectFit: 'fill', zIndex: 10, pointerEvents: 'none' }} />
+
+      {/* Bottom ornament */}
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img src="/svgs/ornament-bottom.svg" alt="" aria-hidden="true" style={{ position: 'absolute', bottom: '0.5%', left: '15%', width: '70%', height: '10%', objectFit: 'fill', zIndex: 10, pointerEvents: 'none', transform: 'scaleY(-1)' }} />
+
+      {/* Back nav */}
       {onBack && (
         <button
           onClick={onBack}
-          className="absolute top-0 left-0 z-30"
-          style={{ width: '22%', background: 'none', border: 'none', padding: 0, cursor: 'pointer' }}
-          aria-label="Go back"
+          style={{ position: 'absolute', top: '4px', left: '6px', zIndex: 25, background: '#EDE2C2', border: '2px solid #724E2A', borderRadius: '50%', width: '40px', height: '40px', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 0 }}
         >
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/svgs/corner-back.svg" alt="" style={{ width: '100%', height: 'auto', display: 'block' }} />
+          <svg width="22" height="22" viewBox="0 0 28 28" fill="none">
+            <path d="M18 4L8 14L18 24" stroke="#274324" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"/>
+          </svg>
         </button>
       )}
 
-      {/* Home corner tile (top-right, mirrored) */}
+      {/* Home nav */}
       {onHome && (
         <button
           onClick={onHome}
-          className="absolute top-0 right-0 z-30"
-          style={{ width: '22%', background: 'none', border: 'none', padding: 0, cursor: 'pointer', transform: 'scaleX(-1)' }}
-          aria-label="Go home"
+          style={{ position: 'absolute', top: '4px', right: '6px', zIndex: 25, background: '#EDE2C2', border: '2px solid #724E2A', borderRadius: '50%', width: '40px', height: '40px', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 0 }}
         >
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/svgs/corner-back.svg" alt="" style={{ width: '100%', height: 'auto', display: 'block' }} />
+          <svg width="22" height="22" viewBox="0 0 28 28" fill="none">
+            <path d="M14 4L24 13V24H18V18H10V24H4V13L14 4Z" stroke="#274324" strokeWidth="2.5" strokeLinejoin="round"/>
+          </svg>
         </button>
       )}
 
-      {/* Screen title in arch area */}
+      {/* Beige blob — elliptical rounded top */}
+      <div style={{
+        position: 'absolute',
+        left: '3%', right: '3%',
+        top: '2%', bottom: '3%',
+        background: '#EDE2C2',
+        border: '2.5px solid #724E2A',
+        borderRadius: '50% 50% 0 0 / 18% 18% 0 0',
+        zIndex: 1,
+      }} />
+
+      {/* Title in arch area */}
       {title && (
-        <div
-          className="absolute left-0 right-0 z-20 flex items-center justify-center pointer-events-none"
-          style={{ top: 0, height: '15%' }}
-        >
-          <h1
-            style={{
-              fontFamily: 'var(--font-serif)',
-              fontSize: '1.1rem',
-              color: '#EDE2C2',
-              letterSpacing: '0.04em',
-              fontWeight: 500,
-            }}
-          >
+        <div style={{ position: 'absolute', top: '10%', left: '3%', right: '3%', textAlign: 'center', zIndex: 5, pointerEvents: 'none' }}>
+          <h1 style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '1.1rem', color: '#274324', margin: 0 }}>
             {title}
           </h1>
         </div>
       )}
 
-      {/* Content — starts below the arch curve (~29% of height from top) */}
-      {/* padding-top: 48.2% of width = 29% of height at 45:75 aspect ratio */}
-      <div
-        className="absolute inset-0 z-10 flex flex-col"
-        style={{ paddingTop: '48.2%' }}
-      >
+      {/* Content area — starts below arch, bounded so children h-full works */}
+      <div style={{ position: 'absolute', top: '22%', left: '3%', right: '3%', bottom: '3%', zIndex: 5, display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
         <div className="flex-1 min-h-0 flex flex-col overflow-auto">
           {children}
         </div>

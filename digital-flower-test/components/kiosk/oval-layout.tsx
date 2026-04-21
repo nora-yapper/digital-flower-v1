@@ -10,53 +10,50 @@ interface OvalLayoutProps {
 
 export function OvalLayout({ children, onBack, onHome }: OvalLayoutProps) {
   return (
-    <div className="h-full relative overflow-hidden" style={{ background: '#EDE2C2' }}>
-      {/* Oval border SVG — fills the entire frame */}
+    <div style={{ width: '100%', height: '100%', background: '#EDE2C2', position: 'relative', overflow: 'hidden' }}>
+
+      {/* Yellow frame */}
       {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img
-        src="/svgs/oval-border.svg"
-        alt=""
-        aria-hidden="true"
-        className="absolute inset-0 pointer-events-none"
-        style={{ width: '100%', height: '100%', objectFit: 'fill' }}
-      />
+      <img src="/svgs/frame.svg" alt="" aria-hidden="true" style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', objectFit: 'fill', zIndex: 20, pointerEvents: 'none' }} />
 
-      {/* Leaf logo at top center */}
-      <div className="absolute left-1/2 -translate-x-1/2 z-10 pointer-events-none" style={{ top: '6%' }}>
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src="/svgs/leaf-logo.svg" alt="" aria-hidden="true" style={{ width: '80px', height: 'auto' }} />
-      </div>
+      {/* Top ornament */}
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img src="/svgs/ornament-top.svg" alt="" aria-hidden="true" style={{ position: 'absolute', top: '0.78%', left: '8.9%', width: '82.2%', height: '19.4%', objectFit: 'fill', zIndex: 10, pointerEvents: 'none' }} />
 
-      {/* Optional back nav */}
+      {/* Oval border */}
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img src="/svgs/oval-border.svg" alt="" aria-hidden="true" style={{ position: 'absolute', left: '8.9%', top: '6.9%', width: '82.2%', height: '86.2%', objectFit: 'fill', zIndex: 1, pointerEvents: 'none' }} />
+
+      {/* Bottom ornament */}
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img src="/svgs/ornament-bottom.svg" alt="" aria-hidden="true" style={{ position: 'absolute', bottom: '0.78%', left: '8.9%', width: '82.2%', height: '19.4%', objectFit: 'fill', zIndex: 10, pointerEvents: 'none', transform: 'scaleY(-1)' }} />
+
+      {/* Back nav */}
       {onBack && (
         <button
           onClick={onBack}
-          className="absolute z-20 flex items-center gap-1"
-          style={{ top: '6%', left: '8%', color: '#F7D08D', fontFamily: 'var(--font-display)', fontSize: '0.7rem', background: 'none', border: 'none', cursor: 'pointer' }}
+          style={{ position: 'absolute', top: '6%', left: '8%', zIndex: 15, background: 'none', border: 'none', cursor: 'pointer', padding: '4px' }}
         >
-          <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-            <path d="M9 2L4 7L9 12" stroke="#F7D08D" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+          <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+            <path d="M18 4L8 14L18 24" stroke="#678F74" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"/>
           </svg>
-          Back
         </button>
       )}
 
-      {/* Optional home nav */}
+      {/* Home nav */}
       {onHome && (
         <button
           onClick={onHome}
-          className="absolute z-20 flex items-center gap-1"
-          style={{ top: '6%', right: '8%', color: '#F7D08D', fontFamily: 'var(--font-display)', fontSize: '0.7rem', background: 'none', border: 'none', cursor: 'pointer' }}
+          style={{ position: 'absolute', top: '6%', right: '8%', zIndex: 15, background: 'none', border: 'none', cursor: 'pointer', padding: '4px' }}
         >
-          Home
-          <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-            <path d="M7 2L12 6.5V12H9V9H5V12H2V6.5L7 2Z" stroke="#F7D08D" strokeWidth="1.5" strokeLinejoin="round"/>
+          <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+            <path d="M14 4L24 13V24H18V18H10V24H4V13L14 4Z" stroke="#678F74" strokeWidth="2.5" strokeLinejoin="round"/>
           </svg>
         </button>
       )}
 
-      {/* Screen content */}
-      <div className="relative z-10 h-full flex flex-col" style={{ paddingTop: '18%', paddingBottom: '10%' }}>
+      {/* Content sits inside the oval area */}
+      <div style={{ position: 'absolute', left: '8.9%', top: '6.9%', width: '82.2%', height: '86.2%', zIndex: 5, display: 'flex', flexDirection: 'column' }}>
         {children}
       </div>
     </div>

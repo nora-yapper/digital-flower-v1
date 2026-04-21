@@ -271,6 +271,21 @@ export const translations = {
       contactMessage: 'You will be contacted when the bouquet is ready.',
       newOrder: 'Start New Order',
     },
+    flora: {
+      rose: 'Rose', tulip: 'Tulip', lily: 'Lily', orchid: 'Orchid', peony: 'Peony', carnation: 'Carnation',
+      'babys-breath': "Baby's Breath", waxflower: 'Waxflower', statice: 'Statice', aster: 'Aster', veronica: 'Veronica', caspia: 'Caspia',
+      eucalyptus: 'Eucalyptus', ruscus: 'Ruscus', myrtle: 'Myrtle', ivy: 'Ivy', fern: 'Fern', pittosporum: 'Pittosporum',
+      kraft: 'Kraft Paper', white: 'White', black: 'Black', 'pink-pastel': 'Pink Pastel', red: 'Red',
+    } as Record<string, string>,
+    colors: {
+      'Deep Red': 'Deep Red', 'Blush Pink': 'Blush Pink', 'Red & Pink': 'Red & Pink', 'Pure White': 'Pure White',
+      'Mixed Pastels': 'Mixed Pastels', 'Burgundy': 'Burgundy', 'Coral Sunset': 'Coral Sunset', 'White & Green': 'White & Green',
+      'Soft Pink': 'Soft Pink', 'Yellow & Orange': 'Yellow & Orange', 'Rainbow': 'Rainbow', 'Mixed Colors': 'Mixed Colors',
+      'Mixed Brights': 'Mixed Brights', 'Pastels': 'Pastels', 'Purple & Yellow': 'Purple & Yellow', 'Tropical Mix': 'Tropical Mix',
+      'Soft Mix': 'Soft Mix', 'Golden Yellow': 'Golden Yellow', 'Warm Tones': 'Warm Tones', 'Pink & White': 'Pink & White',
+      'Seasonal Mix': 'Seasonal Mix', 'Cottage Mix': 'Cottage Mix', 'Deep Tones': 'Deep Tones', 'White': 'White',
+      'Soft Pastels': 'Soft Pastels', 'Soft White': 'Soft White',
+    } as Record<string, string>,
   },
   hr: {
     welcome: {
@@ -378,6 +393,21 @@ export const translations = {
       contactMessage: 'Kontaktirat ćemo vas kada buket bude spreman.',
       newOrder: 'Nova Narudžba',
     },
+    flora: {
+      rose: 'Ruža', tulip: 'Tulipan', lily: 'Ljiljan', orchid: 'Orhideja', peony: 'Božur', carnation: 'Karanfil',
+      'babys-breath': 'Djevičica', waxflower: 'Voskovac', statice: 'Morski lavandić', aster: 'Aster', veronica: 'Veronika', caspia: 'Limonijum',
+      eucalyptus: 'Eukaliptus', ruscus: 'Ruskus', myrtle: 'Mirta', ivy: 'Bršljan', fern: 'Paprat', pittosporum: 'Pitospor',
+      kraft: 'Kraft papir', white: 'Bijeli omot', black: 'Crni omot', 'pink-pastel': 'Pastelno ružičasti', red: 'Crveni omot',
+    } as Record<string, string>,
+    colors: {
+      'Deep Red': 'Tamnocrvena', 'Blush Pink': 'Rumen ružičasta', 'Red & Pink': 'Crvena i ružičasta', 'Pure White': 'Čisto bijela',
+      'Mixed Pastels': 'Mješoviti pasteli', 'Burgundy': 'Burgund', 'Coral Sunset': 'Koraljni zalazak', 'White & Green': 'Bijela i zelena',
+      'Soft Pink': 'Mekano ružičasta', 'Yellow & Orange': 'Žuta i narančasta', 'Rainbow': 'Duga', 'Mixed Colors': 'Mješovite boje',
+      'Mixed Brights': 'Jarke boje', 'Pastels': 'Pasteli', 'Purple & Yellow': 'Ljubičasta i žuta', 'Tropical Mix': 'Tropska mješavina',
+      'Soft Mix': 'Mješovito mekano', 'Golden Yellow': 'Zlatno žuta', 'Warm Tones': 'Topli tonovi', 'Pink & White': 'Ružičasta i bijela',
+      'Seasonal Mix': 'Sezonska mješavina', 'Cottage Mix': 'Rustikalna mješavina', 'Deep Tones': 'Duboki tonovi', 'White': 'Bijela',
+      'Soft Pastels': 'Mekani pasteli', 'Soft White': 'Mekana bijela',
+    } as Record<string, string>,
   },
 }
 
@@ -407,13 +437,13 @@ export function calculateBouquetPrice(customization: BouquetCustomization | null
 
 // Helper to get valid occasions for a recipient
 export function getValidOccasions(recipient: Recipient): Occasion[] {
-  if (recipient === 'deceased') {
-    return ['platonic', 'sacrament']
+  const valid = new Set<Occasion>()
+  for (const b of sampleBouquets) {
+    if (b.recipients.includes(recipient)) {
+      b.occasions.forEach(o => valid.add(o))
+    }
   }
-  if (recipient === 'lover') {
-    return ['valentine', 'anniversary', 'platonic']
-  }
-  return ['valentine', 'anniversary', 'platonic', 'sacrament']
+  return Array.from(valid)
 }
 
 // Helper to filter bouquets
