@@ -1,23 +1,19 @@
 "use client"
 
 import { useKioskStore, translations, type Occasion } from "@/lib/kiosk-store"
-import { Button } from "@/components/ui/button"
-import { Card, CardContent } from "@/components/ui/card"
-import { ArrowLeft, Home, Heart, CalendarHeart, PartyPopper, Church } from "lucide-react"
-import { Progress } from "@/components/ui/progress"
+import { OvalLayout } from "./oval-layout"
 
 interface OccasionScreenProps {
   onHomeClick: () => void
 }
 
-const occasionIcons: Record<Occasion, React.ReactNode> = {
-  valentine: <Heart className="h-6 w-6" />,
-  anniversary: <CalendarHeart className="h-6 w-6" />,
-  platonic: <PartyPopper className="h-6 w-6" />,
-  sacrament: <Church className="h-6 w-6" />,
+const occasionEmoji: Record<Occasion, string> = {
+  valentine: '♥',
+  anniversary: '◈',
+  platonic: '✦',
+  sacrament: '✙',
 }
 
-// Occasions disabled for deceased recipient
 const disabledForDeceased: Occasion[] = ['valentine', 'anniversary']
 
 export function OccasionScreen({ onHomeClick }: OccasionScreenProps) {
@@ -45,71 +41,69 @@ export function OccasionScreen({ onHomeClick }: OccasionScreenProps) {
   }
 
   return (
-    <div className="h-full flex flex-col p-4">
-      {/* Navigation */}
-      <div className="flex items-center justify-between mb-3">
-        <Button
-          variant="ghost"
-          size="sm"
-          className="gap-1 text-xs"
-          onClick={() => setScreen("recipient")}
-        >
-          <ArrowLeft className="h-4 w-4" />
-          {t.navigation.back}
-        </Button>
-        <Button
-          variant="ghost"
-          size="sm"
-          className="gap-1 text-xs"
-          onClick={onHomeClick}
-        >
-          <Home className="h-4 w-4" />
-          {t.navigation.home}
-        </Button>
-      </div>
-
-      {/* Progress indicator */}
-      <div className="w-full mb-4 px-2">
-        <div className="flex items-center justify-between mb-1">
-          <span className="text-[10px] text-muted-foreground">Step 2 of 4</span>
+    <OvalLayout onBack={() => setScreen("recipient")} onHome={onHomeClick}>
+      <div className="h-full flex flex-col items-center justify-center gap-5 px-8">
+        {/* Step indicator */}
+        <div style={{ display: 'flex', gap: '6px', alignItems: 'center' }}>
+          {[1,2].map((step) => (
+            <div
+              key={step}
+              style={{
+                width: '20px',
+                height: '4px',
+                background: '#F7D08D',
+                borderRadius: '2px',
+              }}
+            />
+          ))}
         </div>
-        <Progress value={50} className="h-1" />
-      </div>
 
-      {/* Content */}
-      <div className="flex-1 flex flex-col items-center justify-center w-full px-2">
-        <h1 className="font-serif text-lg text-foreground text-center mb-5">
+        {/* Title */}
+        <h1
+          style={{
+            fontFamily: 'var(--font-serif)',
+            fontSize: '1.3rem',
+            color: '#F7D08D',
+            textAlign: 'center',
+            lineHeight: 1.3,
+          }}
+        >
           {t.occasions.title}
         </h1>
 
-        <div className="grid grid-cols-2 gap-3 w-full max-w-xs">
+        {/* 2×2 grid */}
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.6rem', width: '100%', maxWidth: '260px' }}>
           {occasions.map((occasion) => {
             const disabled = isDisabled(occasion.id)
             return (
-              <Card
+              <button
                 key={occasion.id}
-                className={`border transition-all ${
-                  disabled 
-                    ? 'opacity-40 cursor-not-allowed' 
-                    : 'cursor-pointer hover:border-primary hover:shadow-md group'
-                }`}
                 onClick={() => handleSelect(occasion.id)}
+                disabled={disabled}
+                style={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  padding: '1rem 0.5rem',
+                  background: disabled ? 'rgba(247, 208, 141, 0.04)' : 'rgba(247, 208, 141, 0.12)',
+                  border: `1.5px solid ${disabled ? 'rgba(247, 208, 141, 0.15)' : 'rgba(247, 208, 141, 0.45)'}`,
+                  cursor: disabled ? 'not-allowed' : 'pointer',
+                  opacity: disabled ? 0.35 : 1,
+                  gap: '0.4rem',
+                }}
               >
-                <CardContent className="flex flex-col items-center justify-center p-3 text-center">
-                  <div className={`mb-2 transition-colors ${
-                    disabled ? 'text-muted-foreground/50' : 'text-muted-foreground group-hover:text-primary'
-                  }`}>
-                    {occasionIcons[occasion.id]}
-                  </div>
-                  <h2 className="font-serif text-sm text-foreground">
-                    {occasion.label}
-                  </h2>
-                </CardContent>
-              </Card>
+                <span style={{ fontSize: '1.4rem', color: '#FDAA5C', lineHeight: 1 }}>
+                  {occasionEmoji[occasion.id]}
+                </span>
+                <span style={{ fontFamily: 'var(--font-serif)', fontSize: '0.85rem', color: '#EDE2C2', fontWeight: 500 }}>
+                  {occasion.label}
+                </span>
+              </button>
             )
           })}
         </div>
       </div>
-    </div>
+    </OvalLayout>
   )
 }

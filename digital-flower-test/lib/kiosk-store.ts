@@ -84,84 +84,84 @@ export interface CartItem {
 
 // Sample data
 export const mainFlowers: Flower[] = [
-  { id: 'rose', name: 'Rose', image: '/placeholder.svg?height=120&width=120' },
-  { id: 'tulip', name: 'Tulip', image: '/placeholder.svg?height=120&width=120' },
-  { id: 'lily', name: 'Lily', image: '/placeholder.svg?height=120&width=120' },
-  { id: 'orchid', name: 'Orchid', image: '/placeholder.svg?height=120&width=120' },
-  { id: 'peony', name: 'Peony', image: '/placeholder.svg?height=120&width=120' },
-  { id: 'carnation', name: 'Carnation', image: '/placeholder.svg?height=120&width=120' },
+  { id: 'rose', name: 'Rose', image: '/images/main-flowers/rose.png' },
+  { id: 'tulip', name: 'Tulip', image: '/images/main-flowers/tulip.png' },
+  { id: 'lily', name: 'Lily', image: '/images/main-flowers/lily.png' },
+  { id: 'orchid', name: 'Orchid', image: 'https://images.unsplash.com/photo-1524593166156-312f362cada0?w=120&h=120&fit=crop&auto=format' },
+  { id: 'peony', name: 'Peony', image: 'https://images.unsplash.com/photo-1587392879738-baca04e9aee3?w=120&h=120&fit=crop&auto=format' },
+  { id: 'carnation', name: 'Carnation', image: 'https://images.unsplash.com/photo-1553531384-397c80973a0b?w=120&h=120&fit=crop&auto=format' },
 ]
 
 export const fillerFlowers: Flower[] = [
-  { id: 'babys-breath', name: "Baby's Breath", image: '/placeholder.svg?height=120&width=120' },
-  { id: 'waxflower', name: 'Waxflower', image: '/placeholder.svg?height=120&width=120' },
-  { id: 'statice', name: 'Statice', image: '/placeholder.svg?height=120&width=120' },
-  { id: 'aster', name: 'Aster', image: '/placeholder.svg?height=120&width=120' },
-  { id: 'veronica', name: 'Veronica', image: '/placeholder.svg?height=120&width=120' },
-  { id: 'caspia', name: 'Caspia', image: '/placeholder.svg?height=120&width=120' },
+  { id: 'babys-breath', name: "Baby's Breath", image: '/images/filler-flowers/babys-breath.png' },
+  { id: 'waxflower', name: 'Waxflower', image: '/images/filler-flowers/waxflower.png' },
+  { id: 'statice', name: 'Statice', image: '/images/filler-flowers/statice.png' },
+  { id: 'aster', name: 'Aster', image: 'https://images.unsplash.com/photo-1508610048659-a06b669e3321?w=120&h=120&fit=crop&auto=format' },
+  { id: 'veronica', name: 'Veronica', image: 'https://images.unsplash.com/photo-1455598689817-c2c2f5bf6de6?w=120&h=120&fit=crop&auto=format' },
+  { id: 'caspia', name: 'Caspia', image: 'https://images.unsplash.com/photo-1490750967868-88df5691cc09?w=120&h=120&fit=crop&auto=format' },
 ]
 
 export const greeneryOptions: Greenery[] = [
-  { id: 'eucalyptus', name: 'Eucalyptus', image: '/placeholder.svg?height=120&width=120' },
-  { id: 'ruscus', name: 'Ruscus', image: '/placeholder.svg?height=120&width=120' },
-  { id: 'myrtle', name: 'Myrtle', image: '/placeholder.svg?height=120&width=120' },
-  { id: 'ivy', name: 'Ivy', image: '/placeholder.svg?height=120&width=120' },
-  { id: 'fern', name: 'Fern', image: '/placeholder.svg?height=120&width=120' },
-  { id: 'pittosporum', name: 'Pittosporum', image: '/placeholder.svg?height=120&width=120' },
+  { id: 'eucalyptus', name: 'Eucalyptus', image: '/images/greenery/eucalyptus.png' },
+  { id: 'ruscus', name: 'Ruscus', image: '/images/greenery/ruscus.png' },
+  { id: 'myrtle', name: 'Myrtle', image: '/images/greenery/myrtle.png' },
+  { id: 'ivy', name: 'Ivy', image: 'https://images.unsplash.com/photo-1584267385494-9fdd9a71ad75?w=120&h=120&fit=crop&auto=format' },
+  { id: 'fern', name: 'Fern', image: 'https://images.unsplash.com/photo-1550159930-40066082a4fc?w=120&h=120&fit=crop&auto=format' },
+  { id: 'pittosporum', name: 'Pittosporum', image: 'https://images.unsplash.com/photo-1500462918059-b1a0cb512f1d?w=120&h=120&fit=crop&auto=format' },
 ]
 
 export const wrappingOptions: Wrapping[] = [
-  { id: 'kraft', name: 'Kraft Paper', image: '/placeholder.svg?height=120&width=120', premium: false, price: 0 },
-  { id: 'white', name: 'White', image: '/placeholder.svg?height=120&width=120', premium: false, price: 0 },
-  { id: 'black', name: 'Black', image: '/placeholder.svg?height=120&width=120', premium: false, price: 0 },
-  { id: 'pink-pastel', name: 'Pink Pastel', image: '/placeholder.svg?height=120&width=120', premium: true, price: 3 },
-  { id: 'red', name: 'Red', image: '/placeholder.svg?height=120&width=120', premium: true, price: 3 },
+  { id: 'kraft', name: 'Kraft Paper', image: 'https://images.unsplash.com/photo-1558769132-cb1aea458c5e?w=120&h=120&fit=crop&auto=format', premium: false, price: 0 },
+  { id: 'white', name: 'White', image: 'https://images.unsplash.com/photo-1574158622682-e40e69881006?w=120&h=120&fit=crop&auto=format', premium: false, price: 0 },
+  { id: 'black', name: 'Black', image: 'https://images.unsplash.com/photo-1519378058457-4c29a0a2efac?w=120&h=120&fit=crop&auto=format', premium: false, price: 0 },
+  { id: 'pink-pastel', name: 'Pink Pastel', image: 'https://images.unsplash.com/photo-1548550506-b002d4d5f0f1?w=120&h=120&fit=crop&auto=format', premium: true, price: 3 },
+  { id: 'red', name: 'Red', image: 'https://images.unsplash.com/photo-1518895949257-7621c3c786d7?w=120&h=120&fit=crop&auto=format', premium: true, price: 3 },
 ]
 
 export const sampleBouquets: Bouquet[] = [
-  // Valentine's / Anniversary bouquets for lovers (Rose, Tulip, Lily, Orchid, Peony, Carnation)
-  { id: 'red-rose-classic', name: 'Red Rose Classic', description: 'Red roses with baby\'s breath, eucalyptus & ruscus in red wrap', color: 'Deep Red', image: '/placeholder.svg?height=300&width=300', priceIndicator: '$$', basePrice: 35, recipients: ['lover'], occasions: ['valentine', 'anniversary'] },
-  { id: 'romantic-blush', name: 'Romantic Blush', description: 'Pink roses with waxflower, eucalyptus & myrtle in pink pastel wrap', color: 'Blush Pink', image: '/placeholder.svg?height=300&width=300', priceIndicator: '$', basePrice: 28, recipients: ['lover'], occasions: ['valentine', 'anniversary'] },
-  { id: 'passion-bouquet', name: 'Passion Bouquet', description: 'Luxurious peonies with statice, ivy & fern in red wrap', color: 'Red & Pink', image: '/placeholder.svg?height=300&width=300', priceIndicator: '$$$', basePrice: 55, recipients: ['lover'], occasions: ['valentine', 'anniversary'] },
-  { id: 'eternal-love', name: 'Eternal Love', description: 'White roses with caspia, eucalyptus & pittosporum in white wrap', color: 'Pure White', image: '/placeholder.svg?height=300&width=300', priceIndicator: '$$', basePrice: 40, recipients: ['lover'], occasions: ['valentine', 'anniversary'] },
-  { id: 'heart-aflutter', name: 'Heart Aflutter', description: 'Colorful tulips with aster, ruscus & fern in pink pastel wrap', color: 'Mixed Pastels', image: '/placeholder.svg?height=300&width=300', priceIndicator: '$', basePrice: 25, recipients: ['lover'], occasions: ['valentine', 'anniversary'] },
-  { id: 'velvet-dreams', name: 'Velvet Dreams', description: 'Deep burgundy peonies with veronica, eucalyptus & ivy in black wrap', color: 'Burgundy', image: '/placeholder.svg?height=300&width=300', priceIndicator: '$$$', basePrice: 60, recipients: ['lover'], occasions: ['valentine', 'anniversary'] },
-  { id: 'sunset-romance', name: 'Sunset Romance', description: 'Coral roses with waxflower, myrtle & pittosporum in kraft wrap', color: 'Coral Sunset', image: '/placeholder.svg?height=300&width=300', priceIndicator: '$$', basePrice: 38, recipients: ['lover'], occasions: ['valentine', 'anniversary'] },
-  { id: 'moonlight-serenade', name: 'Moonlight Serenade', description: 'White lilies with baby\'s breath, eucalyptus & ruscus in white wrap', color: 'White & Green', image: '/placeholder.svg?height=300&width=300', priceIndicator: '$$$', basePrice: 52, recipients: ['lover'], occasions: ['valentine', 'anniversary'] },
-  { id: 'first-kiss', name: 'First Kiss', description: 'Pink carnations with statice, myrtle & fern in pink pastel wrap', color: 'Soft Pink', image: '/placeholder.svg?height=300&width=300', priceIndicator: '$$', basePrice: 42, recipients: ['lover'], occasions: ['valentine', 'anniversary'] },
-  
+  // Valentine's / Anniversary bouquets for lovers
+  { id: 'red-rose-classic', name: 'Red Rose Classic', description: 'Red roses with baby\'s breath, eucalyptus & ruscus in red wrap', color: 'Deep Red', image: 'https://images.unsplash.com/photo-1518895949257-7621c3c786d7?w=300&h=300&fit=crop&auto=format', priceIndicator: '$$', basePrice: 35, recipients: ['lover'], occasions: ['valentine', 'anniversary'] },
+  { id: 'romantic-blush', name: 'Romantic Blush', description: 'Pink roses with waxflower, eucalyptus & myrtle in pink pastel wrap', color: 'Blush Pink', image: 'https://images.unsplash.com/photo-1485196978736-1f926c24b7fb?w=300&h=300&fit=crop&auto=format', priceIndicator: '$', basePrice: 28, recipients: ['lover'], occasions: ['valentine', 'anniversary'] },
+  { id: 'passion-bouquet', name: 'Passion Bouquet', description: 'Luxurious peonies with statice, ivy & fern in red wrap', color: 'Red & Pink', image: 'https://images.unsplash.com/photo-1587392879738-baca04e9aee3?w=300&h=300&fit=crop&auto=format', priceIndicator: '$$$', basePrice: 55, recipients: ['lover'], occasions: ['valentine', 'anniversary'] },
+  { id: 'eternal-love', name: 'Eternal Love', description: 'White roses with caspia, eucalyptus & pittosporum in white wrap', color: 'Pure White', image: 'https://images.unsplash.com/photo-1574158622682-e40e69881006?w=300&h=300&fit=crop&auto=format', priceIndicator: '$$', basePrice: 40, recipients: ['lover'], occasions: ['valentine', 'anniversary'] },
+  { id: 'heart-aflutter', name: 'Heart Aflutter', description: 'Colorful tulips with aster, ruscus & fern in pink pastel wrap', color: 'Mixed Pastels', image: 'https://images.unsplash.com/photo-1520399580965-c77de30de4da?w=300&h=300&fit=crop&auto=format', priceIndicator: '$', basePrice: 25, recipients: ['lover'], occasions: ['valentine', 'anniversary'] },
+  { id: 'velvet-dreams', name: 'Velvet Dreams', description: 'Deep burgundy peonies with veronica, eucalyptus & ivy in black wrap', color: 'Burgundy', image: 'https://images.unsplash.com/photo-1508197239992-914fe5a4a5d3?w=300&h=300&fit=crop&auto=format', priceIndicator: '$$$', basePrice: 60, recipients: ['lover'], occasions: ['valentine', 'anniversary'] },
+  { id: 'sunset-romance', name: 'Sunset Romance', description: 'Coral roses with waxflower, myrtle & pittosporum in kraft wrap', color: 'Coral Sunset', image: 'https://images.unsplash.com/photo-1499830847023-c550f97dc3e3?w=300&h=300&fit=crop&auto=format', priceIndicator: '$$', basePrice: 38, recipients: ['lover'], occasions: ['valentine', 'anniversary'] },
+  { id: 'moonlight-serenade', name: 'Moonlight Serenade', description: 'White lilies with baby\'s breath, eucalyptus & ruscus in white wrap', color: 'White & Green', image: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=300&h=300&fit=crop&auto=format', priceIndicator: '$$$', basePrice: 52, recipients: ['lover'], occasions: ['valentine', 'anniversary'] },
+  { id: 'first-kiss', name: 'First Kiss', description: 'Pink carnations with statice, myrtle & fern in pink pastel wrap', color: 'Soft Pink', image: 'https://images.unsplash.com/photo-1553531384-397c80973a0b?w=300&h=300&fit=crop&auto=format', priceIndicator: '$$', basePrice: 42, recipients: ['lover'], occasions: ['valentine', 'anniversary'] },
+
   // Friend celebration bouquets
-  { id: 'sunshine-mix', name: 'Sunshine Mix', description: 'Bright tulips with aster, eucalyptus & ivy in kraft wrap', color: 'Yellow & Orange', image: '/placeholder.svg?height=300&width=300', priceIndicator: '$', basePrice: 25, recipients: ['friend'], occasions: ['platonic'] },
-  { id: 'happy-days', name: 'Happy Days', description: 'Cheerful carnations with waxflower, ruscus & fern in kraft wrap', color: 'Rainbow', image: '/placeholder.svg?height=300&width=300', priceIndicator: '$', basePrice: 22, recipients: ['friend'], occasions: ['platonic'] },
-  { id: 'garden-party', name: 'Garden Party', description: 'Mixed roses with caspia, eucalyptus & myrtle in white wrap', color: 'Mixed Colors', image: '/placeholder.svg?height=300&width=300', priceIndicator: '$$', basePrice: 32, recipients: ['friend'], occasions: ['platonic'] },
-  { id: 'cheerful-tulips', name: 'Cheerful Tulips', description: 'Bright tulips with veronica, ivy & pittosporum in kraft wrap', color: 'Mixed Brights', image: '/placeholder.svg?height=300&width=300', priceIndicator: '$', basePrice: 24, recipients: ['friend'], occasions: ['platonic'] },
-  { id: 'spring-delight', name: 'Spring Delight', description: 'Pastel lilies with baby\'s breath, ruscus & fern in white wrap', color: 'Pastels', image: '/placeholder.svg?height=300&width=300', priceIndicator: '$$', basePrice: 30, recipients: ['friend'], occasions: ['platonic'] },
-  { id: 'vibrant-wishes', name: 'Vibrant Wishes', description: 'Colorful carnations with statice, eucalyptus & myrtle in kraft wrap', color: 'Purple & Yellow', image: '/placeholder.svg?height=300&width=300', priceIndicator: '$', basePrice: 26, recipients: ['friend'], occasions: ['platonic'] },
-  { id: 'tropical-vibes', name: 'Tropical Vibes', description: 'Exotic orchids with waxflower, ivy & pittosporum in black wrap', color: 'Tropical Mix', image: '/placeholder.svg?height=300&width=300', priceIndicator: '$$$', basePrice: 48, recipients: ['friend'], occasions: ['platonic'] },
-  { id: 'sweet-memories', name: 'Sweet Memories', description: 'Soft carnations with aster, ruscus & fern in pink pastel wrap', color: 'Soft Mix', image: '/placeholder.svg?height=300&width=300', priceIndicator: '$', basePrice: 20, recipients: ['friend'], occasions: ['platonic'] },
-  { id: 'best-friends', name: 'Best Friends', description: 'Yellow roses with caspia, eucalyptus & myrtle in kraft wrap', color: 'Golden Yellow', image: '/placeholder.svg?height=300&width=300', priceIndicator: '$$', basePrice: 35, recipients: ['friend'], occasions: ['platonic'] },
-  
+  { id: 'sunshine-mix', name: 'Sunshine Mix', description: 'Bright tulips with aster, eucalyptus & ivy in kraft wrap', color: 'Yellow & Orange', image: 'https://images.unsplash.com/photo-1490750967868-88df5691cc09?w=300&h=300&fit=crop&auto=format', priceIndicator: '$', basePrice: 25, recipients: ['friend'], occasions: ['platonic'] },
+  { id: 'happy-days', name: 'Happy Days', description: 'Cheerful carnations with waxflower, ruscus & fern in kraft wrap', color: 'Rainbow', image: 'https://images.unsplash.com/photo-1499830847023-c550f97dc3e3?w=300&h=300&fit=crop&auto=format', priceIndicator: '$', basePrice: 22, recipients: ['friend'], occasions: ['platonic'] },
+  { id: 'garden-party', name: 'Garden Party', description: 'Mixed roses with caspia, eucalyptus & myrtle in white wrap', color: 'Mixed Colors', image: 'https://images.unsplash.com/photo-1518895949257-7621c3c786d7?w=300&h=300&fit=crop&auto=format', priceIndicator: '$$', basePrice: 32, recipients: ['friend'], occasions: ['platonic'] },
+  { id: 'cheerful-tulips', name: 'Cheerful Tulips', description: 'Bright tulips with veronica, ivy & pittosporum in kraft wrap', color: 'Mixed Brights', image: 'https://images.unsplash.com/photo-1520399580965-c77de30de4da?w=300&h=300&fit=crop&auto=format', priceIndicator: '$', basePrice: 24, recipients: ['friend'], occasions: ['platonic'] },
+  { id: 'spring-delight', name: 'Spring Delight', description: 'Pastel lilies with baby\'s breath, ruscus & fern in white wrap', color: 'Pastels', image: 'https://images.unsplash.com/photo-1485196978736-1f926c24b7fb?w=300&h=300&fit=crop&auto=format', priceIndicator: '$$', basePrice: 30, recipients: ['friend'], occasions: ['platonic'] },
+  { id: 'vibrant-wishes', name: 'Vibrant Wishes', description: 'Colorful carnations with statice, eucalyptus & myrtle in kraft wrap', color: 'Purple & Yellow', image: 'https://images.unsplash.com/photo-1508197239992-914fe5a4a5d3?w=300&h=300&fit=crop&auto=format', priceIndicator: '$', basePrice: 26, recipients: ['friend'], occasions: ['platonic'] },
+  { id: 'tropical-vibes', name: 'Tropical Vibes', description: 'Exotic orchids with waxflower, ivy & pittosporum in black wrap', color: 'Tropical Mix', image: 'https://images.unsplash.com/photo-1524593166156-312f362cada0?w=300&h=300&fit=crop&auto=format', priceIndicator: '$$$', basePrice: 48, recipients: ['friend'], occasions: ['platonic'] },
+  { id: 'sweet-memories', name: 'Sweet Memories', description: 'Soft carnations with aster, ruscus & fern in pink pastel wrap', color: 'Soft Mix', image: 'https://images.unsplash.com/photo-1553531384-397c80973a0b?w=300&h=300&fit=crop&auto=format', priceIndicator: '$', basePrice: 20, recipients: ['friend'], occasions: ['platonic'] },
+  { id: 'best-friends', name: 'Best Friends', description: 'Yellow roses with caspia, eucalyptus & myrtle in kraft wrap', color: 'Golden Yellow', image: 'https://images.unsplash.com/photo-1490750967868-88df5691cc09?w=300&h=300&fit=crop&auto=format', priceIndicator: '$$', basePrice: 35, recipients: ['friend'], occasions: ['platonic'] },
+
   // Family bouquets
-  { id: 'family-love', name: 'Family Love', description: 'Warm roses with baby\'s breath, eucalyptus & ivy in kraft wrap', color: 'Warm Tones', image: '/placeholder.svg?height=300&width=300', priceIndicator: '$$', basePrice: 35, recipients: ['family'], occasions: ['platonic', 'sacrament'] },
-  { id: 'mothers-embrace', name: "Mother's Embrace", description: 'Pink roses with waxflower, ruscus & myrtle in pink pastel wrap', color: 'Pink & White', image: '/placeholder.svg?height=300&width=300', priceIndicator: '$$', basePrice: 38, recipients: ['family'], occasions: ['platonic'] },
-  { id: 'gentle-grace', name: 'Gentle Grace', description: 'Elegant lilies with statice, eucalyptus & fern in white wrap', color: 'White & Green', image: '/placeholder.svg?height=300&width=300', priceIndicator: '$$', basePrice: 36, recipients: ['family'], occasions: ['platonic', 'sacrament'] },
-  { id: 'home-blessings', name: 'Home Blessings', description: 'Mixed tulips with aster, ivy & pittosporum in kraft wrap', color: 'Seasonal Mix', image: '/placeholder.svg?height=300&width=300', priceIndicator: '$', basePrice: 28, recipients: ['family'], occasions: ['platonic'] },
-  { id: 'grandmas-garden', name: "Grandma's Garden", description: 'Cottage carnations with veronica, ruscus & myrtle in kraft wrap', color: 'Cottage Mix', image: '/placeholder.svg?height=300&width=300', priceIndicator: '$', basePrice: 26, recipients: ['family'], occasions: ['platonic'] },
-  { id: 'fathers-pride', name: "Father's Pride", description: 'Bold orchids with caspia, eucalyptus & fern in black wrap', color: 'Deep Tones', image: '/placeholder.svg?height=300&width=300', priceIndicator: '$$', basePrice: 34, recipients: ['family'], occasions: ['platonic'] },
-  { id: 'sacred-blessing', name: 'Sacred Blessing', description: 'White lilies with baby\'s breath, ruscus & ivy in white wrap', color: 'Pure White', image: '/placeholder.svg?height=300&width=300', priceIndicator: '$$', basePrice: 40, recipients: ['family'], occasions: ['sacrament'] },
-  { id: 'holy-communion', name: 'Holy Communion', description: 'White roses with waxflower, eucalyptus & myrtle in white wrap', color: 'White', image: '/placeholder.svg?height=300&width=300', priceIndicator: '$$$', basePrice: 50, recipients: ['family'], occasions: ['sacrament'] },
-  { id: 'confirmation-joy', name: 'Confirmation Joy', description: 'White lilies with statice, ruscus & pittosporum in white wrap', color: 'White', image: '/placeholder.svg?height=300&width=300', priceIndicator: '$$', basePrice: 42, recipients: ['family'], occasions: ['sacrament'] },
-  
+  { id: 'family-love', name: 'Family Love', description: 'Warm roses with baby\'s breath, eucalyptus & ivy in kraft wrap', color: 'Warm Tones', image: 'https://images.unsplash.com/photo-1499830847023-c550f97dc3e3?w=300&h=300&fit=crop&auto=format', priceIndicator: '$$', basePrice: 35, recipients: ['family'], occasions: ['platonic', 'sacrament'] },
+  { id: 'mothers-embrace', name: "Mother's Embrace", description: 'Pink roses with waxflower, ruscus & myrtle in pink pastel wrap', color: 'Pink & White', image: 'https://images.unsplash.com/photo-1485196978736-1f926c24b7fb?w=300&h=300&fit=crop&auto=format', priceIndicator: '$$', basePrice: 38, recipients: ['family'], occasions: ['platonic'] },
+  { id: 'gentle-grace', name: 'Gentle Grace', description: 'Elegant lilies with statice, eucalyptus & fern in white wrap', color: 'White & Green', image: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=300&h=300&fit=crop&auto=format', priceIndicator: '$$', basePrice: 36, recipients: ['family'], occasions: ['platonic', 'sacrament'] },
+  { id: 'home-blessings', name: 'Home Blessings', description: 'Mixed tulips with aster, ivy & pittosporum in kraft wrap', color: 'Seasonal Mix', image: 'https://images.unsplash.com/photo-1520399580965-c77de30de4da?w=300&h=300&fit=crop&auto=format', priceIndicator: '$', basePrice: 28, recipients: ['family'], occasions: ['platonic'] },
+  { id: 'grandmas-garden', name: "Grandma's Garden", description: 'Cottage carnations with veronica, ruscus & myrtle in kraft wrap', color: 'Cottage Mix', image: 'https://images.unsplash.com/photo-1553531384-397c80973a0b?w=300&h=300&fit=crop&auto=format', priceIndicator: '$', basePrice: 26, recipients: ['family'], occasions: ['platonic'] },
+  { id: 'fathers-pride', name: "Father's Pride", description: 'Bold orchids with caspia, eucalyptus & fern in black wrap', color: 'Deep Tones', image: 'https://images.unsplash.com/photo-1524593166156-312f362cada0?w=300&h=300&fit=crop&auto=format', priceIndicator: '$$', basePrice: 34, recipients: ['family'], occasions: ['platonic'] },
+  { id: 'sacred-blessing', name: 'Sacred Blessing', description: 'White lilies with baby\'s breath, ruscus & ivy in white wrap', color: 'Pure White', image: 'https://images.unsplash.com/photo-1574158622682-e40e69881006?w=300&h=300&fit=crop&auto=format', priceIndicator: '$$', basePrice: 40, recipients: ['family'], occasions: ['sacrament'] },
+  { id: 'holy-communion', name: 'Holy Communion', description: 'White roses with waxflower, eucalyptus & myrtle in white wrap', color: 'White', image: 'https://images.unsplash.com/photo-1574158622682-e40e69881006?w=300&h=300&fit=crop&auto=format', priceIndicator: '$$$', basePrice: 50, recipients: ['family'], occasions: ['sacrament'] },
+  { id: 'confirmation-joy', name: 'Confirmation Joy', description: 'White lilies with statice, ruscus & pittosporum in white wrap', color: 'White', image: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=300&h=300&fit=crop&auto=format', priceIndicator: '$$', basePrice: 42, recipients: ['family'], occasions: ['sacrament'] },
+
   // Memorial bouquets
-  { id: 'peaceful-rest', name: 'Peaceful Rest', description: 'Serene white lilies with baby\'s breath, eucalyptus & fern in white wrap', color: 'White', image: '/placeholder.svg?height=300&width=300', priceIndicator: '$$', basePrice: 38, recipients: ['deceased'], occasions: ['platonic', 'sacrament'] },
-  { id: 'eternal-memory', name: 'Eternal Memory', description: 'White roses with caspia, ruscus & ivy in white wrap', color: 'White & Green', image: '/placeholder.svg?height=300&width=300', priceIndicator: '$$', basePrice: 40, recipients: ['deceased'], occasions: ['platonic', 'sacrament'] },
-  { id: 'heavenly-peace', name: 'Heavenly Peace', description: 'Pure white roses with waxflower, eucalyptus & myrtle in white wrap', color: 'Pure White', image: '/placeholder.svg?height=300&width=300', priceIndicator: '$$$', basePrice: 55, recipients: ['deceased'], occasions: ['platonic', 'sacrament'] },
-  { id: 'tender-goodbye', name: 'Tender Goodbye', description: 'Soft carnations with aster, ruscus & fern in white wrap', color: 'Soft Pastels', image: '/placeholder.svg?height=300&width=300', priceIndicator: '$', basePrice: 30, recipients: ['deceased'], occasions: ['platonic', 'sacrament'] },
-  { id: 'sacred-tribute', name: 'Sacred Tribute', description: 'White lilies with veronica, eucalyptus & pittosporum in white wrap', color: 'White & Green', image: '/placeholder.svg?height=300&width=300', priceIndicator: '$$', basePrice: 42, recipients: ['deceased'], occasions: ['sacrament'] },
-  { id: 'in-loving-memory', name: 'In Loving Memory', description: 'White carnations with statice, ivy & myrtle in white wrap', color: 'White', image: '/placeholder.svg?height=300&width=300', priceIndicator: '$', basePrice: 28, recipients: ['deceased'], occasions: ['platonic', 'sacrament'] },
-  { id: 'angels-wings', name: "Angel's Wings", description: 'White orchids with baby\'s breath, ruscus & fern in white wrap', color: 'White', image: '/placeholder.svg?height=300&width=300', priceIndicator: '$$', basePrice: 45, recipients: ['deceased'], occasions: ['platonic', 'sacrament'] },
-  { id: 'serenity', name: 'Serenity', description: 'Peaceful peonies with waxflower, eucalyptus & ivy in white wrap', color: 'Soft White', image: '/placeholder.svg?height=300&width=300', priceIndicator: '$$', basePrice: 38, recipients: ['deceased'], occasions: ['platonic', 'sacrament'] },
-  { id: 'final-farewell', name: 'Final Farewell', description: 'Elegant lilies with caspia, ruscus & pittosporum in white wrap', color: 'White', image: '/placeholder.svg?height=300&width=300', priceIndicator: '$$$', basePrice: 65, recipients: ['deceased'], occasions: ['platonic', 'sacrament'] },
+  { id: 'peaceful-rest', name: 'Peaceful Rest', description: 'Serene white lilies with baby\'s breath, eucalyptus & fern in white wrap', color: 'White', image: 'https://images.unsplash.com/photo-1574158622682-e40e69881006?w=300&h=300&fit=crop&auto=format', priceIndicator: '$$', basePrice: 38, recipients: ['deceased'], occasions: ['platonic', 'sacrament'] },
+  { id: 'eternal-memory', name: 'Eternal Memory', description: 'White roses with caspia, ruscus & ivy in white wrap', color: 'White & Green', image: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=300&h=300&fit=crop&auto=format', priceIndicator: '$$', basePrice: 40, recipients: ['deceased'], occasions: ['platonic', 'sacrament'] },
+  { id: 'heavenly-peace', name: 'Heavenly Peace', description: 'Pure white roses with waxflower, eucalyptus & myrtle in white wrap', color: 'Pure White', image: 'https://images.unsplash.com/photo-1559563458-527698bf5295?w=300&h=300&fit=crop&auto=format', priceIndicator: '$$$', basePrice: 55, recipients: ['deceased'], occasions: ['platonic', 'sacrament'] },
+  { id: 'tender-goodbye', name: 'Tender Goodbye', description: 'Soft carnations with aster, ruscus & fern in white wrap', color: 'Soft Pastels', image: 'https://images.unsplash.com/photo-1553531384-397c80973a0b?w=300&h=300&fit=crop&auto=format', priceIndicator: '$', basePrice: 30, recipients: ['deceased'], occasions: ['platonic', 'sacrament'] },
+  { id: 'sacred-tribute', name: 'Sacred Tribute', description: 'White lilies with veronica, eucalyptus & pittosporum in white wrap', color: 'White & Green', image: 'https://images.unsplash.com/photo-1574158622682-e40e69881006?w=300&h=300&fit=crop&auto=format', priceIndicator: '$$', basePrice: 42, recipients: ['deceased'], occasions: ['sacrament'] },
+  { id: 'in-loving-memory', name: 'In Loving Memory', description: 'White carnations with statice, ivy & myrtle in white wrap', color: 'White', image: 'https://images.unsplash.com/photo-1574158622682-e40e69881006?w=300&h=300&fit=crop&auto=format', priceIndicator: '$', basePrice: 28, recipients: ['deceased'], occasions: ['platonic', 'sacrament'] },
+  { id: 'angels-wings', name: "Angel's Wings", description: 'White orchids with baby\'s breath, ruscus & fern in white wrap', color: 'White', image: 'https://images.unsplash.com/photo-1524593166156-312f362cada0?w=300&h=300&fit=crop&auto=format', priceIndicator: '$$', basePrice: 45, recipients: ['deceased'], occasions: ['platonic', 'sacrament'] },
+  { id: 'serenity', name: 'Serenity', description: 'Peaceful peonies with waxflower, eucalyptus & ivy in white wrap', color: 'Soft White', image: 'https://images.unsplash.com/photo-1587392879738-baca04e9aee3?w=300&h=300&fit=crop&auto=format', priceIndicator: '$$', basePrice: 38, recipients: ['deceased'], occasions: ['platonic', 'sacrament'] },
+  { id: 'final-farewell', name: 'Final Farewell', description: 'Elegant lilies with caspia, ruscus & pittosporum in white wrap', color: 'White', image: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=300&h=300&fit=crop&auto=format', priceIndicator: '$$$', basePrice: 65, recipients: ['deceased'], occasions: ['platonic', 'sacrament'] },
 ]
 
 export const translations = {

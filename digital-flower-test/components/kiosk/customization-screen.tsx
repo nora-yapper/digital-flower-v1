@@ -2,9 +2,7 @@
 
 import { useState } from "react"
 import { useKioskStore, translations, mainFlowers, fillerFlowers, greeneryOptions, wrappingOptions, calculateBouquetPrice } from "@/lib/kiosk-store"
-import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { ArrowLeft, Home, Flower2, Leaf, Gift, Check, ShoppingCart } from "lucide-react"
+import { ArchLayout } from "./arch-layout"
 import Image from "next/image"
 
 interface CustomizationScreenProps {
@@ -14,17 +12,16 @@ interface CustomizationScreenProps {
 type CustomizationCategory = 'main' | 'filler' | 'greenery' | 'wrapping'
 
 export function CustomizationScreen({ onHomeClick }: CustomizationScreenProps) {
-  const { 
-    language, 
-    screen,
-    selectedBouquet, 
-    customization, 
+  const {
+    language,
+    selectedBouquet,
+    customization,
     updateCustomization,
     addToCart,
-    setScreen 
+    setScreen
   } = useKioskStore()
   const t = translations[language]
-  
+
   const [activeCategory, setActiveCategory] = useState<CustomizationCategory>('main')
 
   if (!selectedBouquet) {
@@ -34,16 +31,12 @@ export function CustomizationScreen({ onHomeClick }: CustomizationScreenProps) {
 
   const price = calculateBouquetPrice(customization, selectedBouquet.basePrice)
 
-  const categories = [
-    { id: 'main' as const, label: t.customization.mainFlowers, icon: Flower2 },
-    { id: 'filler' as const, label: t.customization.fillerFlowers, icon: Flower2 },
-    { id: 'greenery' as const, label: t.customization.greenery, icon: Leaf },
-    { id: 'wrapping' as const, label: t.customization.wrapping, icon: Gift },
+  const categories: { id: CustomizationCategory; label: string }[] = [
+    { id: 'main', label: t.customization.mainFlowers },
+    { id: 'filler', label: t.customization.fillerFlowers },
+    { id: 'greenery', label: t.customization.greenery },
+    { id: 'wrapping', label: t.customization.wrapping },
   ]
-
-  const handleSaveAndReturn = () => {
-    setScreen("bouquet-details")
-  }
 
   const handleAddToCart = () => {
     const cartItem = {
@@ -57,54 +50,63 @@ export function CustomizationScreen({ onHomeClick }: CustomizationScreenProps) {
     setScreen("cart")
   }
 
-  const handleCancel = () => {
-    setScreen("bouquet-details")
-  }
+  const optionCard = (isSelected: boolean, isDisabled?: boolean) => ({
+    border: `1.5px solid ${isSelected ? '#678F74' : 'rgba(114,78,42,0.2)'}`,
+    background: isSelected ? 'rgba(103,143,116,0.12)' : 'transparent',
+    cursor: isDisabled ? 'not-allowed' : 'pointer',
+    opacity: isDisabled ? 0.4 : 1,
+    padding: '0.35rem',
+    display: 'flex',
+    flexDirection: 'column' as const,
+    alignItems: 'center',
+    gap: '3px',
+  })
 
-  const renderCategoryContent = () => {
+  const renderContent = () => {
     switch (activeCategory) {
       case 'main':
         return (
           <div>
-            <p className="text-xs text-muted-foreground mb-3">{t.customization.mainFlowersDesc}</p>
-            <div className="grid grid-cols-3 gap-2 mb-3">
+            <p style={{ fontFamily: 'var(--font-display)', fontSize: '0.62rem', color: '#724E2A', marginBottom: '0.5rem' }}>
+              {t.customization.mainFlowersDesc}
+            </p>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '0.4rem', marginBottom: '0.6rem' }}>
               {mainFlowers.map((flower) => (
-                <Card
+                <button
                   key={flower.id}
-                  className={`cursor-pointer border transition-all ${
-                    customization.mainFlower?.id === flower.id
-                      ? 'border-primary ring-1 ring-primary/20'
-                      : 'hover:border-primary/50'
-                  }`}
                   onClick={() => updateCustomization({ mainFlower: flower })}
+                  style={optionCard(customization.mainFlower?.id === flower.id)}
                 >
-                  <CardContent className="p-2 text-center">
-                    <div className="relative aspect-square mb-1 bg-muted rounded overflow-hidden">
-                      <Image src={flower.image} alt={flower.name} fill className="object-cover" />
-                      {customization.mainFlower?.id === flower.id && (
-                        <div className="absolute top-0.5 right-0.5 bg-primary text-primary-foreground rounded-full p-0.5">
-                          <Check className="h-2 w-2" />
-                        </div>
-                      )}
-                    </div>
-                    <span className="text-xs font-medium">{flower.name}</span>
-                  </CardContent>
-                </Card>
+                  <div style={{ position: 'relative', aspectRatio: '1', width: '100%', overflow: 'hidden' }}>
+                    <Image src={flower.image} alt={flower.name} fill className="object-cover" />
+                    {customization.mainFlower?.id === flower.id && (
+                      <div style={{ position: 'absolute', top: '3px', right: '3px', background: '#678F74', borderRadius: '50%', width: '14px', height: '14px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                        <svg width="8" height="8" viewBox="0 0 10 10"><path d="M2 5l2.5 2.5L8 3" stroke="#EDE2C2" strokeWidth="1.5" fill="none" strokeLinecap="round" strokeLinejoin="round"/></svg>
+                      </div>
+                    )}
+                  </div>
+                  <span style={{ fontFamily: 'var(--font-display)', fontSize: '0.58rem', color: '#274324', textAlign: 'center' }}>{flower.name}</span>
+                </button>
               ))}
             </div>
             <div>
-              <p className="text-xs text-muted-foreground mb-1">{t.customization.count}</p>
-              <div className="flex gap-2">
+              <p style={{ fontFamily: 'var(--font-display)', fontSize: '0.62rem', color: '#724E2A', marginBottom: '0.3rem' }}>{t.customization.count}</p>
+              <div style={{ display: 'flex', gap: '0.4rem' }}>
                 {([3, 5, 7] as const).map((count) => (
-                  <Button
+                  <button
                     key={count}
-                    variant={customization.mainFlowerCount === count ? "default" : "outline"}
-                    size="sm"
-                    className="min-w-10 h-8"
                     onClick={() => updateCustomization({ mainFlowerCount: count })}
-                  >
-                    {count}
-                  </Button>
+                    style={{
+                      padding: '0.3rem 0.6rem',
+                      background: customization.mainFlowerCount === count ? '#678F74' : 'transparent',
+                      color: customization.mainFlowerCount === count ? '#EDE2C2' : '#274324',
+                      border: `1.5px solid ${customization.mainFlowerCount === count ? '#678F74' : 'rgba(114,78,42,0.3)'}`,
+                      cursor: 'pointer',
+                      fontFamily: 'var(--font-display)',
+                      fontSize: '0.7rem',
+                      fontWeight: 700,
+                    }}
+                  >{count}</button>
                 ))}
               </div>
             </div>
@@ -113,83 +115,64 @@ export function CustomizationScreen({ onHomeClick }: CustomizationScreenProps) {
 
       case 'filler':
         return (
-          <div>
-            <div className="grid grid-cols-3 gap-2 mb-3">
-              {fillerFlowers.map((flower) => (
-                <Card
-                  key={flower.id}
-                  className={`cursor-pointer border transition-all ${
-                    customization.fillerFlower?.id === flower.id
-                      ? 'border-primary ring-1 ring-primary/20'
-                      : 'hover:border-primary/50'
-                  }`}
-                  onClick={() => updateCustomization({ fillerFlower: flower })}
-                >
-                  <CardContent className="p-2 text-center">
-                    <div className="relative aspect-square mb-1 bg-muted rounded overflow-hidden">
-                      <Image src={flower.image} alt={flower.name} fill className="object-cover" />
-                      {customization.fillerFlower?.id === flower.id && (
-                        <div className="absolute top-0.5 right-0.5 bg-primary text-primary-foreground rounded-full p-0.5">
-                          <Check className="h-2 w-2" />
-                        </div>
-                      )}
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '0.4rem' }}>
+            {fillerFlowers.map((flower) => (
+              <button
+                key={flower.id}
+                onClick={() => updateCustomization({ fillerFlower: flower })}
+                style={optionCard(customization.fillerFlower?.id === flower.id)}
+              >
+                <div style={{ position: 'relative', aspectRatio: '1', width: '100%', overflow: 'hidden' }}>
+                  <Image src={flower.image} alt={flower.name} fill className="object-cover" />
+                  {customization.fillerFlower?.id === flower.id && (
+                    <div style={{ position: 'absolute', top: '3px', right: '3px', background: '#678F74', borderRadius: '50%', width: '14px', height: '14px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                      <svg width="8" height="8" viewBox="0 0 10 10"><path d="M2 5l2.5 2.5L8 3" stroke="#EDE2C2" strokeWidth="1.5" fill="none" strokeLinecap="round" strokeLinejoin="round"/></svg>
                     </div>
-                    <span className="text-xs font-medium">{flower.name}</span>
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
+                  )}
+                </div>
+                <span style={{ fontFamily: 'var(--font-display)', fontSize: '0.58rem', color: '#274324', textAlign: 'center' }}>{flower.name}</span>
+              </button>
+            ))}
           </div>
         )
 
       case 'greenery':
         return (
           <div>
-            <p className="text-xs text-muted-foreground mb-3">{t.customization.greeneryDesc}</p>
-            <div className="grid grid-cols-3 gap-2">
+            <p style={{ fontFamily: 'var(--font-display)', fontSize: '0.62rem', color: '#724E2A', marginBottom: '0.5rem' }}>
+              {t.customization.greeneryDesc}
+            </p>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '0.4rem' }}>
               {greeneryOptions.map((green) => {
                 const isSelected = customization.greenery.some(g => g.id === green.id)
                 const canSelect = customization.greenery.length < 3 || isSelected
-                
                 return (
-                  <Card
+                  <button
                     key={green.id}
-                    className={`cursor-pointer border transition-all ${
-                      isSelected
-                        ? 'border-primary ring-1 ring-primary/20'
-                        : canSelect 
-                          ? 'hover:border-primary/50' 
-                          : 'opacity-50 cursor-not-allowed'
-                    }`}
                     onClick={() => {
                       if (!canSelect) return
                       if (isSelected) {
-                        updateCustomization({ 
-                          greenery: customization.greenery.filter(g => g.id !== green.id) 
-                        })
+                        updateCustomization({ greenery: customization.greenery.filter(g => g.id !== green.id) })
                       } else {
-                        updateCustomization({ 
-                          greenery: [...customization.greenery, green] 
-                        })
+                        updateCustomization({ greenery: [...customization.greenery, green] })
                       }
                     }}
+                    style={optionCard(isSelected, !canSelect)}
                   >
-                    <CardContent className="p-2 text-center">
-                      <div className="relative aspect-square mb-1 bg-muted rounded overflow-hidden">
-                        <Image src={green.image} alt={green.name} fill className="object-cover" />
-                        {isSelected && (
-                          <div className="absolute top-0.5 right-0.5 bg-primary text-primary-foreground rounded-full p-0.5">
-                            <Check className="h-2 w-2" />
-                          </div>
-                        )}
-                      </div>
-                      <span className="text-xs font-medium">{green.name}</span>
-                    </CardContent>
-                  </Card>
+                    <div style={{ position: 'relative', aspectRatio: '1', width: '100%', overflow: 'hidden' }}>
+                      <Image src={green.image} alt={green.name} fill className="object-cover" />
+                      {isSelected && (
+                        <div style={{ position: 'absolute', top: '3px', right: '3px', background: '#678F74', borderRadius: '50%', width: '14px', height: '14px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                          <svg width="8" height="8" viewBox="0 0 10 10"><path d="M2 5l2.5 2.5L8 3" stroke="#EDE2C2" strokeWidth="1.5" fill="none" strokeLinecap="round" strokeLinejoin="round"/></svg>
+                        </div>
+                      )}
+                    </div>
+                    <span style={{ fontFamily: 'var(--font-display)', fontSize: '0.58rem', color: '#274324', textAlign: 'center' }}>{green.name}</span>
+                  </button>
                 )
               })}
             </div>
-            <p className="text-xs text-muted-foreground mt-2">
+            <p style={{ fontFamily: 'var(--font-display)', fontSize: '0.6rem', color: '#724E2A', marginTop: '0.4rem' }}>
               Selected: {customization.greenery.length}/3
             </p>
           </div>
@@ -197,34 +180,28 @@ export function CustomizationScreen({ onHomeClick }: CustomizationScreenProps) {
 
       case 'wrapping':
         return (
-          <div className="grid grid-cols-3 gap-2">
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '0.4rem' }}>
             {wrappingOptions.map((wrap) => (
-              <Card
+              <button
                 key={wrap.id}
-                className={`cursor-pointer border transition-all ${
-                  customization.wrapping?.id === wrap.id
-                    ? 'border-primary ring-1 ring-primary/20'
-                    : 'hover:border-primary/50'
-                }`}
                 onClick={() => updateCustomization({ wrapping: wrap })}
+                style={optionCard(customization.wrapping?.id === wrap.id)}
               >
-                <CardContent className="p-2 text-center">
-                  <div className="relative aspect-square mb-1 bg-muted rounded overflow-hidden">
-                    <Image src={wrap.image} alt={wrap.name} fill className="object-cover" />
-                    {customization.wrapping?.id === wrap.id && (
-                      <div className="absolute top-0.5 right-0.5 bg-primary text-primary-foreground rounded-full p-0.5">
-                        <Check className="h-2 w-2" />
-                      </div>
-                    )}
-                    {wrap.premium && (
-                      <div className="absolute bottom-0.5 left-0.5 bg-accent text-accent-foreground text-[10px] px-1 py-0.5 rounded">
-                        +{wrap.price}€
-                      </div>
-                    )}
-                  </div>
-                  <span className="text-xs font-medium">{wrap.name}</span>
-                </CardContent>
-              </Card>
+                <div style={{ position: 'relative', aspectRatio: '1', width: '100%', overflow: 'hidden' }}>
+                  <Image src={wrap.image} alt={wrap.name} fill className="object-cover" />
+                  {customization.wrapping?.id === wrap.id && (
+                    <div style={{ position: 'absolute', top: '3px', right: '3px', background: '#678F74', borderRadius: '50%', width: '14px', height: '14px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                      <svg width="8" height="8" viewBox="0 0 10 10"><path d="M2 5l2.5 2.5L8 3" stroke="#EDE2C2" strokeWidth="1.5" fill="none" strokeLinecap="round" strokeLinejoin="round"/></svg>
+                    </div>
+                  )}
+                  {wrap.premium && (
+                    <div style={{ position: 'absolute', bottom: '3px', left: '3px', background: '#FDAA5C', color: '#274324', fontFamily: 'var(--font-display)', fontSize: '0.5rem', fontWeight: 700, padding: '1px 4px' }}>
+                      +{wrap.price}€
+                    </div>
+                  )}
+                </div>
+                <span style={{ fontFamily: 'var(--font-display)', fontSize: '0.58rem', color: '#274324', textAlign: 'center' }}>{wrap.name}</span>
+              </button>
             ))}
           </div>
         )
@@ -232,116 +209,74 @@ export function CustomizationScreen({ onHomeClick }: CustomizationScreenProps) {
   }
 
   return (
-    <div className="h-full flex flex-col p-4">
-      {/* Navigation */}
-      <div className="flex items-center justify-between mb-3">
-        <Button
-          variant="ghost"
-          size="sm"
-          className="gap-1 text-xs"
-          onClick={() => setScreen("bouquet-details")}
-        >
-          <ArrowLeft className="h-4 w-4" />
-          {t.navigation.back}
-        </Button>
-        <h1 className="font-serif text-base">{t.customization.title}</h1>
-        <Button
-          variant="ghost"
-          size="sm"
-          className="gap-1 text-xs"
-          onClick={onHomeClick}
-        >
-          <Home className="h-4 w-4" />
-          {t.navigation.home}
-        </Button>
-      </div>
-
-      {/* Main layout with left sidebar */}
-      <div className="flex-1 flex gap-2 min-h-0 overflow-hidden mb-3">
-        {/* Category tabs - vertical sidebar */}
-        <div className="flex flex-col gap-1 overflow-y-auto pb-1 shrink-0 w-28">
-          {categories.map((cat) => {
-            const Icon = cat.icon
-            return (
-              <Button
-                key={cat.id}
-                variant={activeCategory === cat.id ? "default" : "outline"}
-                size="sm"
-                className="shrink-0 text-[10px] h-7 gap-1 px-2 justify-start"
-                onClick={() => setActiveCategory(cat.id)}
-              >
-                <Icon className="h-3 w-3 shrink-0" />
-                <span className="truncate">{cat.label}</span>
-              </Button>
-            )
-          })}
+    <ArchLayout
+      onBack={() => setScreen("bouquet-details")}
+      onHome={onHomeClick}
+      title={t.customization.title}
+    >
+      <div className="flex flex-col h-full px-3 pt-1 pb-3 gap-2">
+        {/* Category tabs */}
+        <div style={{ display: 'flex', gap: '0.3rem', flexShrink: 0 }}>
+          {categories.map((cat) => (
+            <button
+              key={cat.id}
+              onClick={() => setActiveCategory(cat.id)}
+              style={{
+                flex: 1,
+                padding: '0.35rem 0.2rem',
+                background: activeCategory === cat.id ? '#678F74' : 'transparent',
+                color: activeCategory === cat.id ? '#EDE2C2' : '#724E2A',
+                border: `1.5px solid ${activeCategory === cat.id ? '#678F74' : 'rgba(114,78,42,0.25)'}`,
+                cursor: 'pointer',
+                fontFamily: 'var(--font-display)',
+                fontSize: '0.58rem',
+                fontWeight: activeCategory === cat.id ? 700 : 400,
+              }}
+            >
+              {cat.label}
+            </button>
+          ))}
         </div>
 
-        {/* Main content - scrollable */}
-        <div className="flex-1 overflow-auto">
-          <Card>
-            <CardHeader className="pb-2 px-3 pt-3">
-              <CardTitle className="font-serif text-sm">
-                {categories.find(c => c.id === activeCategory)?.label}
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="px-3 pb-3">
-              {renderCategoryContent()}
-            </CardContent>
-          </Card>
+        {/* Content area */}
+        <div style={{ flex: 1, overflowY: 'auto', minHeight: 0 }}>
+          {renderContent()}
         </div>
-      </div>
 
-      {/* Preview and price bar */}
-      <Card className="mb-3 max-w-xs mx-auto w-full">
-        <CardContent className="p-3 flex items-center gap-3">
-          <div className="relative h-10 w-10 bg-muted rounded overflow-hidden shrink-0">
-            <Image
-              src={selectedBouquet.image}
-              alt={selectedBouquet.name}
-              fill
-              className="object-cover"
-            />
+        {/* Price bar */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', padding: '0.5rem 0.6rem', background: 'rgba(103,143,116,0.1)', borderTop: '1.5px solid rgba(103,143,116,0.25)', flexShrink: 0 }}>
+          <div style={{ position: 'relative', width: '36px', height: '36px', overflow: 'hidden', flexShrink: 0 }}>
+            <Image src={selectedBouquet.image} alt={selectedBouquet.name} fill className="object-cover" />
           </div>
-          <div className="flex-1 min-w-0">
-            <h3 className="font-serif text-xs truncate">{selectedBouquet.name}</h3>
-            <p className="text-[10px] text-muted-foreground truncate">
-              {customization.mainFlower?.name} x{customization.mainFlowerCount}
+          <div style={{ flex: 1, minWidth: 0 }}>
+            <p style={{ fontFamily: 'var(--font-serif)', fontSize: '0.7rem', color: '#274324', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+              {selectedBouquet.name}
+            </p>
+            <p style={{ fontFamily: 'var(--font-display)', fontSize: '0.58rem', color: '#724E2A' }}>
+              {customization.mainFlower?.name} ×{customization.mainFlowerCount}
             </p>
           </div>
-          <p className="text-base font-semibold text-primary shrink-0">{price.toFixed(2)} EUR</p>
-        </CardContent>
-      </Card>
+          <span style={{ fontFamily: 'var(--font-serif)', fontSize: '1rem', color: '#FDAA5C', fontWeight: 600, flexShrink: 0 }}>
+            {price.toFixed(2)} EUR
+          </span>
+        </div>
 
-      {/* Action buttons - horizontal layout */}
-      <div className="flex gap-2 max-w-xs mx-auto w-full">
-        <Button
-          size="sm"
-          className="flex-1 h-8 text-xs gap-1"
-          onClick={handleAddToCart}
-        >
-          <ShoppingCart className="h-4 w-4" />
-          {t.navigation.addToCart}
-        </Button>
-        <div className="flex gap-2 flex-1">
-          <Button
-            size="sm"
-            variant="outline"
-            className="flex-1 h-8 text-[10px]"
-            onClick={handleSaveAndReturn}
+        {/* Actions */}
+        <div style={{ display: 'flex', gap: '0.4rem', flexShrink: 0 }}>
+          <button
+            onClick={handleAddToCart}
+            style={{ flex: 1, padding: '0.55rem', background: '#274324', color: '#F7D08D', fontFamily: 'var(--font-display)', fontSize: '0.7rem', fontWeight: 700, border: 'none', cursor: 'pointer' }}
+          >
+            {t.navigation.addToCart}
+          </button>
+          <button
+            onClick={() => setScreen("bouquet-details")}
+            style={{ flex: 1, padding: '0.55rem', background: 'transparent', color: '#678F74', fontFamily: 'var(--font-display)', fontSize: '0.7rem', border: '1.5px solid #678F74', cursor: 'pointer' }}
           >
             {t.customization.saveChanges}
-          </Button>
-          <Button
-            size="sm"
-            variant="ghost"
-            className="flex-1 h-8 text-[10px]"
-            onClick={handleCancel}
-          >
-            {t.navigation.cancel}
-          </Button>
+          </button>
         </div>
       </div>
-    </div>
+    </ArchLayout>
   )
 }

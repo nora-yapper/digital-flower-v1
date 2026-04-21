@@ -2,25 +2,21 @@
 
 import { useEffect, useState } from "react"
 import { useKioskStore, translations } from "@/lib/kiosk-store"
-import { Button } from "@/components/ui/button"
-import { Card, CardContent } from "@/components/ui/card"
-import { Check, Flower2 } from "lucide-react"
+import { ArchLayout } from "./arch-layout"
 
 export function ConfirmationScreen() {
   const { language, orderNumber, resetSession, clearCart } = useKioskStore()
   const t = translations[language]
-  
-  const [displayOrderNumber] = useState(() => 
+
+  const [displayOrderNumber] = useState(() =>
     orderNumber || `#${Math.floor(Math.random() * 900) + 100}`
   )
 
-  // Auto-reset after 30 seconds
   useEffect(() => {
     const timer = setTimeout(() => {
       clearCart()
       resetSession()
     }, 30000)
-
     return () => clearTimeout(timer)
   }, [clearCart, resetSession])
 
@@ -30,55 +26,78 @@ export function ConfirmationScreen() {
   }
 
   return (
-    <div className="h-full flex flex-col items-center justify-center bg-background p-4">
-      {/* Success animation */}
-      <div className="mb-5">
-        <div className="relative">
-          <div className="absolute inset-0 animate-ping rounded-full bg-primary/20" />
-          <div className="relative flex h-14 w-14 items-center justify-center rounded-full bg-primary">
-            <Check className="h-7 w-7 text-primary-foreground" strokeWidth={2.5} />
+    <ArchLayout title={t.confirmation.title}>
+      <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: '1.25rem', padding: '1rem 1.5rem' }}>
+        {/* Success indicator */}
+        <div style={{ position: 'relative' }}>
+          <div
+            style={{
+              position: 'absolute', inset: 0, borderRadius: '50%',
+              background: 'rgba(103,143,116,0.2)',
+              animation: 'ping 1s cubic-bezier(0,0,0.2,1) infinite',
+            }}
+          />
+          <div style={{
+            position: 'relative', width: '56px', height: '56px', borderRadius: '50%',
+            background: '#678F74', display: 'flex', alignItems: 'center', justifyContent: 'center',
+          }}>
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#EDE2C2" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+              <polyline points="20 6 9 17 4 12"/>
+            </svg>
           </div>
         </div>
-      </div>
 
-      {/* Confirmation message */}
-      <h1 className="mb-3 text-center font-serif text-xl text-foreground">
-        {t.confirmation.title}
-      </h1>
+        {/* Message */}
+        <h1 style={{ fontFamily: 'var(--font-serif)', fontSize: '1.25rem', color: '#274324', textAlign: 'center', lineHeight: 1.3 }}>
+          {t.confirmation.title}
+        </h1>
 
-      {/* Order number */}
-      <Card className="mb-5 w-full max-w-xs">
-        <CardContent className="p-3 text-center">
-          <p className="mb-1 text-xs text-muted-foreground">{t.confirmation.orderNumber}</p>
-          <p className="font-serif text-3xl font-bold text-primary">{displayOrderNumber}</p>
-        </CardContent>
-      </Card>
-
-      {/* Instructions */}
-      <div className="mb-5 flex flex-col items-center gap-3 text-center px-4 max-w-xs">
-        <div className="flex h-9 w-9 items-center justify-center rounded-full bg-primary/10">
-          <Flower2 className="h-4 w-4 text-primary" strokeWidth={1.5} />
+        {/* Order number */}
+        <div style={{ padding: '0.75rem 1.5rem', background: 'rgba(103,143,116,0.1)', border: '1.5px solid rgba(103,143,116,0.3)', textAlign: 'center', width: '100%' }}>
+          <p style={{ fontFamily: 'var(--font-display)', fontSize: '0.65rem', color: '#724E2A', marginBottom: '0.3rem' }}>{t.confirmation.orderNumber}</p>
+          <p style={{ fontFamily: 'var(--font-serif)', fontSize: '2.5rem', color: '#FDAA5C', fontWeight: 700, lineHeight: 1 }}>
+            {displayOrderNumber}
+          </p>
         </div>
-        <p className="text-xs text-foreground">
-          {t.confirmation.message}
-        </p>
-        <p className="text-[10px] text-muted-foreground">
-          {t.confirmation.estimatedTime} <strong>{t.confirmation.timeRange}</strong>
-        </p>
-        <p className="text-[10px] text-muted-foreground">
-          {t.confirmation.contactMessage}
+
+        {/* Leaf decoration */}
+        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.5rem', textAlign: 'center', maxWidth: '260px' }}>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src="/svgs/leaf-logo.svg" alt="" aria-hidden="true" style={{ width: '48px', opacity: 0.6, filter: 'hue-rotate(90deg) saturate(0.5)' }} />
+          <p style={{ fontFamily: 'var(--font-display)', fontSize: '0.72rem', color: '#274324', lineHeight: 1.5 }}>
+            {t.confirmation.message}
+          </p>
+          <p style={{ fontFamily: 'var(--font-display)', fontSize: '0.65rem', color: '#724E2A', lineHeight: 1.4 }}>
+            {t.confirmation.estimatedTime}{' '}
+            <strong style={{ color: '#678F74' }}>{t.confirmation.timeRange}</strong>
+          </p>
+          <p style={{ fontFamily: 'var(--font-display)', fontSize: '0.62rem', color: '#724E2A', opacity: 0.8 }}>
+            {t.confirmation.contactMessage}
+          </p>
+        </div>
+
+        {/* New order button */}
+        <button
+          onClick={handleNewOrder}
+          style={{
+            padding: '0.7rem 2rem',
+            background: '#274324',
+            color: '#F7D08D',
+            fontFamily: 'var(--font-display)',
+            fontSize: '0.8rem',
+            fontWeight: 700,
+            border: 'none',
+            cursor: 'pointer',
+            letterSpacing: '0.04em',
+          }}
+        >
+          {t.confirmation.newOrder}
+        </button>
+
+        <p style={{ fontFamily: 'var(--font-display)', fontSize: '0.6rem', color: '#724E2A', opacity: 0.5 }}>
+          This screen will automatically reset in 30 seconds
         </p>
       </div>
-
-      {/* New order button */}
-      <Button size="sm" className="h-9 min-w-32 text-xs" onClick={handleNewOrder}>
-        {t.confirmation.newOrder}
-      </Button>
-
-      {/* Auto-reset notice */}
-      <p className="mt-4 text-[10px] text-muted-foreground">
-        This screen will automatically reset in 30 seconds
-      </p>
-    </div>
+    </ArchLayout>
   )
 }

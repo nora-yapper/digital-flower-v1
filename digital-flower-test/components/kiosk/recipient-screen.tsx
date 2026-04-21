@@ -1,20 +1,17 @@
 "use client"
 
 import { useKioskStore, translations, type Recipient } from "@/lib/kiosk-store"
-import { Button } from "@/components/ui/button"
-import { Card, CardContent } from "@/components/ui/card"
-import { ArrowLeft, Home, Heart, Users, UserRound, Cross } from "lucide-react"
-import { Progress } from "@/components/ui/progress"
+import { OvalLayout } from "./oval-layout"
 
 interface RecipientScreenProps {
   onHomeClick: () => void
 }
 
-const recipientIcons: Record<Recipient, React.ReactNode> = {
-  lover: <Heart className="h-6 w-6" />,
-  friend: <UserRound className="h-6 w-6" />,
-  family: <Users className="h-6 w-6" />,
-  deceased: <Cross className="h-6 w-6" />,
+const recipientEmoji: Record<Recipient, string> = {
+  lover: '♥',
+  friend: '☺',
+  family: '⁂',
+  deceased: '✦',
 }
 
 export function RecipientScreen({ onHomeClick }: RecipientScreenProps) {
@@ -34,62 +31,64 @@ export function RecipientScreen({ onHomeClick }: RecipientScreenProps) {
   }
 
   return (
-    <div className="h-full flex flex-col p-4">
-      {/* Navigation */}
-      <div className="flex items-center justify-between mb-3">
-        <Button
-          variant="ghost"
-          size="sm"
-          className="gap-1 text-xs"
-          onClick={() => setScreen("mode-selection")}
-        >
-          <ArrowLeft className="h-4 w-4" />
-          {t.navigation.back}
-        </Button>
-        <Button
-          variant="ghost"
-          size="sm"
-          className="gap-1 text-xs"
-          onClick={onHomeClick}
-        >
-          <Home className="h-4 w-4" />
-          {t.navigation.home}
-        </Button>
-      </div>
-
-      {/* Progress indicator */}
-      <div className="w-full mb-4 px-2">
-        <div className="flex items-center justify-between mb-1">
-          <span className="text-[10px] text-muted-foreground">Step 1 of 4</span>
+    <OvalLayout onBack={() => setScreen("mode-selection")} onHome={onHomeClick}>
+      <div className="h-full flex flex-col items-center justify-center gap-5 px-8">
+        {/* Step indicator */}
+        <div style={{ display: 'flex', gap: '6px', alignItems: 'center' }}>
+          {[1,2].map((step) => (
+            <div
+              key={step}
+              style={{
+                width: step === 1 ? '20px' : '8px',
+                height: '4px',
+                background: step === 1 ? '#F7D08D' : 'rgba(247,208,141,0.35)',
+                borderRadius: '2px',
+              }}
+            />
+          ))}
         </div>
-        <Progress value={25} className="h-1" />
-      </div>
 
-      {/* Content */}
-      <div className="flex-1 flex flex-col items-center justify-center w-full px-2">
-        <h1 className="font-serif text-lg text-foreground text-center mb-5">
+        {/* Title */}
+        <h1
+          style={{
+            fontFamily: 'var(--font-serif)',
+            fontSize: '1.3rem',
+            color: '#F7D08D',
+            textAlign: 'center',
+            lineHeight: 1.3,
+          }}
+        >
           {t.recipients.title}
         </h1>
 
-        <div className="grid grid-cols-2 gap-3 w-full max-w-xs">
+        {/* 2×2 grid */}
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.6rem', width: '100%', maxWidth: '260px' }}>
           {recipients.map((recipient) => (
-            <Card
+            <button
               key={recipient.id}
-              className="cursor-pointer border hover:border-primary hover:shadow-md transition-all group"
               onClick={() => handleSelect(recipient.id)}
+              style={{
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                justifyContent: 'center',
+                padding: '1rem 0.5rem',
+                background: 'rgba(247, 208, 141, 0.12)',
+                border: '1.5px solid rgba(247, 208, 141, 0.45)',
+                cursor: 'pointer',
+                gap: '0.4rem',
+              }}
             >
-              <CardContent className="flex flex-col items-center justify-center p-3 text-center">
-                <div className="mb-2 text-muted-foreground group-hover:text-primary transition-colors">
-                  {recipientIcons[recipient.id]}
-                </div>
-                <h2 className="font-serif text-sm text-foreground">
-                  {recipient.label}
-                </h2>
-              </CardContent>
-            </Card>
+              <span style={{ fontSize: '1.4rem', color: '#FDAA5C', lineHeight: 1 }}>
+                {recipientEmoji[recipient.id]}
+              </span>
+              <span style={{ fontFamily: 'var(--font-serif)', fontSize: '0.85rem', color: '#EDE2C2', fontWeight: 500 }}>
+                {recipient.label}
+              </span>
+            </button>
           ))}
         </div>
       </div>
-    </div>
+    </OvalLayout>
   )
 }

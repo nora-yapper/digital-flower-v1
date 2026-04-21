@@ -1,9 +1,7 @@
 "use client"
 
 import { useKioskStore, translations } from "@/lib/kiosk-store"
-import { Button } from "@/components/ui/button"
-import { Card, CardContent } from "@/components/ui/card"
-import { ArrowLeft, Home, Trash2, Plus, Minus, Flower2, ShoppingCart } from "lucide-react"
+import { ArchLayout } from "./arch-layout"
 import Image from "next/image"
 
 interface CartScreenProps {
@@ -11,14 +9,14 @@ interface CartScreenProps {
 }
 
 export function CartScreen({ onHomeClick }: CartScreenProps) {
-  const { 
-    language, 
+  const {
+    language,
     mode,
-    cart, 
-    removeFromCart, 
+    cart,
+    removeFromCart,
     updateCartItemQuantity,
-    clearCart, 
-    setScreen 
+    clearCart,
+    setScreen
   } = useKioskStore()
   const t = translations[language]
 
@@ -38,175 +36,140 @@ export function CartScreen({ onHomeClick }: CartScreenProps) {
     setScreen("mode-selection")
   }
 
-  return (
-    <div className="h-full flex flex-col p-4">
-      {/* Navigation */}
-      <div className="flex items-center justify-between mb-3">
-        <Button
-          variant="ghost"
-          size="sm"
-          className="gap-1 text-xs"
-          onClick={handleBack}
-        >
-          <ArrowLeft className="h-4 w-4" />
-          {t.navigation.back}
-        </Button>
-        <h1 className="font-serif text-base">{t.cart.title}</h1>
-        <Button
-          variant="ghost"
-          size="sm"
-          className="gap-1 text-xs"
-          onClick={onHomeClick}
-        >
-          <Home className="h-4 w-4" />
-          {t.navigation.home}
-        </Button>
-      </div>
+  const btnBase: React.CSSProperties = {
+    fontFamily: 'var(--font-display)',
+    fontSize: '0.7rem',
+    fontWeight: 700,
+    border: 'none',
+    cursor: 'pointer',
+  }
 
-      {/* Main content - vertical layout */}
-      <div className="flex-1 flex flex-col w-full overflow-auto items-center">
+  return (
+    <ArchLayout
+      onBack={handleBack}
+      onHome={onHomeClick}
+      title={t.cart.title}
+    >
+      <div className="flex flex-col h-full px-4 pt-2 pb-3">
         {cart.length === 0 ? (
-          <Card className="p-6 text-center flex-1 flex flex-col items-center justify-center w-full max-w-xs">
-            <ShoppingCart className="mx-auto mb-3 h-10 w-10 text-muted-foreground/50" strokeWidth={1} />
-            <h2 className="mb-2 font-serif text-base text-foreground">
-              {t.cart.empty}
-            </h2>
-            <p className="mb-4 text-xs text-muted-foreground">
+          <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: '0.75rem' }}>
+            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="rgba(39,67,36,0.25)" strokeWidth="1">
+              <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/>
+              <line x1="3" y1="6" x2="21" y2="6"/>
+              <path d="M16 10a4 4 0 0 1-8 0"/>
+            </svg>
+            <p style={{ fontFamily: 'var(--font-serif)', fontSize: '1rem', color: '#274324' }}>{t.cart.empty}</p>
+            <p style={{ fontFamily: 'var(--font-display)', fontSize: '0.7rem', color: '#724E2A', textAlign: 'center' }}>
               Add some beautiful flowers to get started
             </p>
-            <Button size="sm" className="h-8 text-xs" onClick={() => setScreen("mode-selection")}>
+            <button
+              onClick={() => setScreen("mode-selection")}
+              style={{ ...btnBase, padding: '0.6rem 1.2rem', background: '#678F74', color: '#EDE2C2' }}
+            >
               Start Shopping
-            </Button>
-          </Card>
+            </button>
+          </div>
         ) : (
-          <div className="w-full max-w-xs flex flex-col flex-1">
+          <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: '0.5rem', overflowY: 'auto', minHeight: 0 }}>
             {/* Cart items */}
-            <div className="space-y-3 mb-3">
-              {cart.map((item) => (
-                <Card key={item.id}>
-                  <CardContent className="flex items-start gap-3 p-3">
-                    {/* Bouquet image */}
-                    <div className="relative h-14 w-14 shrink-0 rounded-md bg-muted overflow-hidden">
-                      <Image
-                        src={item.bouquet.image}
-                        alt={item.bouquet.name}
-                        fill
-                        className="object-cover"
-                      />
-                    </div>
-
-                    {/* Item details */}
-                    <div className="flex-1 min-w-0">
-                      <h3 className="font-serif text-xs text-foreground truncate">
-                        {item.bouquet.name}
-                      </h3>
-                      <p className="text-[10px] text-muted-foreground truncate">
-                        {item.customization.mainFlower?.name} x{item.customization.mainFlowerCount}
-                      </p>
-                      
-                      {/* Quantity controls inline */}
-                      <div className="flex items-center gap-2 mt-2">
-                        <Button
-                          variant="outline"
-                          size="icon"
-                          className="h-6 w-6"
-                          onClick={() => {
-                            if (item.quantity > 1) {
-                              updateCartItemQuantity(item.id, item.quantity - 1)
-                            }
-                          }}
-                          disabled={item.quantity <= 1}
-                        >
-                          <Minus className="h-3 w-3" />
-                        </Button>
-                        <span className="w-4 text-center text-xs font-medium">
-                          {item.quantity}
-                        </span>
-                        <Button
-                          variant="outline"
-                          size="icon"
-                          className="h-6 w-6"
-                          onClick={() => updateCartItemQuantity(item.id, item.quantity + 1)}
-                        >
-                          <Plus className="h-3 w-3" />
-                        </Button>
-                      </div>
-                    </div>
-
-                    {/* Price and remove */}
-                    <div className="text-right shrink-0">
-                      <p className="font-serif text-xs font-semibold text-primary">
-                        {(item.totalPrice * item.quantity).toFixed(2)} EUR
-                      </p>
-                      <Button
-                        variant="ghost"
-                        size="sm"
-                        className="text-destructive hover:text-destructive h-6 px-1 text-[10px] mt-1"
-                        onClick={() => removeFromCart(item.id)}
-                      >
-                        <Trash2 className="h-3 w-3" />
-                      </Button>
-                    </div>
-                  </CardContent>
-                </Card>
-              ))}
-
-              {/* Add more items button */}
-              <Button
-                variant="outline"
-                size="sm"
-                className="w-full h-8 gap-1 text-xs"
-                onClick={handleAddAnother}
+            {cart.map((item) => (
+              <div
+                key={item.id}
+                style={{
+                  display: 'flex',
+                  alignItems: 'flex-start',
+                  gap: '0.6rem',
+                  padding: '0.6rem',
+                  background: 'rgba(103,143,116,0.06)',
+                  border: '1px solid rgba(114,78,42,0.15)',
+                }}
               >
-                <Plus className="h-3 w-3" />
-                {t.cart.addAnother}
-              </Button>
-            </div>
-
-            {/* Order summary */}
-            <Card className="mt-auto">
-              <CardContent className="p-3">
-                <div className="mb-3 space-y-1">
-                  {cart.map((item) => (
-                    <div key={item.id} className="flex justify-between text-[10px]">
-                      <span className="text-muted-foreground truncate mr-2">
-                        {item.bouquet.name} x{item.quantity}
-                      </span>
-                      <span className="shrink-0">{(item.totalPrice * item.quantity).toFixed(2)} EUR</span>
-                    </div>
-                  ))}
+                <div style={{ position: 'relative', width: '52px', height: '52px', flexShrink: 0, overflow: 'hidden' }}>
+                  <Image src={item.bouquet.image} alt={item.bouquet.name} fill className="object-cover" />
                 </div>
-
-                <div className="mb-3 border-t border-border pt-3">
-                  <div className="flex justify-between items-center">
-                    <span className="text-xs font-medium">{t.cart.total}</span>
-                    <span className="font-serif text-lg font-semibold text-primary">
-                      {calculateTotal().toFixed(2)} EUR
+                <div style={{ flex: 1, minWidth: 0 }}>
+                  <p style={{ fontFamily: 'var(--font-serif)', fontSize: '0.8rem', color: '#274324', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                    {item.bouquet.name}
+                  </p>
+                  <p style={{ fontFamily: 'var(--font-display)', fontSize: '0.6rem', color: '#724E2A', marginTop: '2px' }}>
+                    {item.customization.mainFlower?.name} ×{item.customization.mainFlowerCount}
+                  </p>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', marginTop: '0.3rem' }}>
+                    <button
+                      onClick={() => { if (item.quantity > 1) updateCartItemQuantity(item.id, item.quantity - 1) }}
+                      disabled={item.quantity <= 1}
+                      style={{ width: '22px', height: '22px', background: 'transparent', border: '1.5px solid rgba(114,78,42,0.3)', cursor: item.quantity <= 1 ? 'not-allowed' : 'pointer', opacity: item.quantity <= 1 ? 0.35 : 1, display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: 'var(--font-display)', fontSize: '0.85rem', color: '#274324' }}
+                    >−</button>
+                    <span style={{ fontFamily: 'var(--font-display)', fontSize: '0.75rem', color: '#274324', fontWeight: 700, minWidth: '14px', textAlign: 'center' }}>
+                      {item.quantity}
                     </span>
+                    <button
+                      onClick={() => updateCartItemQuantity(item.id, item.quantity + 1)}
+                      style={{ width: '22px', height: '22px', background: 'transparent', border: '1.5px solid rgba(114,78,42,0.3)', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: 'var(--font-display)', fontSize: '0.85rem', color: '#274324' }}
+                    >+</button>
                   </div>
                 </div>
+                <div style={{ textAlign: 'right', flexShrink: 0 }}>
+                  <p style={{ fontFamily: 'var(--font-serif)', fontSize: '0.85rem', color: '#FDAA5C', fontWeight: 600 }}>
+                    {(item.totalPrice * item.quantity).toFixed(2)} EUR
+                  </p>
+                  <button
+                    onClick={() => removeFromCart(item.id)}
+                    style={{ marginTop: '0.3rem', background: 'none', border: 'none', cursor: 'pointer', padding: 0 }}
+                  >
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="rgba(180,40,40,0.6)" strokeWidth="2">
+                      <polyline points="3 6 5 6 21 6"/>
+                      <path d="M19 6l-1 14H6L5 6M10 11v6M14 11v6M9 6V4h6v2"/>
+                    </svg>
+                  </button>
+                </div>
+              </div>
+            ))}
 
-                <Button
-                  size="sm"
-                  className="mb-2 w-full h-8 text-xs"
-                  onClick={() => setScreen("payment")}
-                >
-                  {t.cart.checkout}
-                </Button>
+            {/* Add another */}
+            <button
+              onClick={handleAddAnother}
+              style={{ ...btnBase, padding: '0.5rem', background: 'transparent', color: '#678F74', border: '1.5px dashed rgba(103,143,116,0.5)', width: '100%', flexShrink: 0 }}
+            >
+              + {t.cart.addAnother}
+            </button>
 
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  className="w-full h-7 text-[10px] text-destructive hover:text-destructive"
-                  onClick={clearCart}
-                >
-                  {t.cart.cancelOrder}
-                </Button>
-              </CardContent>
-            </Card>
+            {/* Order summary */}
+            <div style={{ background: 'rgba(103,143,116,0.08)', padding: '0.7rem', borderTop: '1.5px solid rgba(103,143,116,0.25)', flexShrink: 0, marginTop: 'auto' }}>
+              {cart.map((item) => (
+                <div key={item.id} style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.2rem' }}>
+                  <span style={{ fontFamily: 'var(--font-display)', fontSize: '0.6rem', color: '#724E2A', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', flex: 1, marginRight: '0.5rem' }}>
+                    {item.bouquet.name} ×{item.quantity}
+                  </span>
+                  <span style={{ fontFamily: 'var(--font-display)', fontSize: '0.6rem', color: '#274324', flexShrink: 0 }}>
+                    {(item.totalPrice * item.quantity).toFixed(2)} EUR
+                  </span>
+                </div>
+              ))}
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '0.5rem', paddingTop: '0.5rem', borderTop: '1px solid rgba(103,143,116,0.2)' }}>
+                <span style={{ fontFamily: 'var(--font-display)', fontSize: '0.7rem', fontWeight: 700, color: '#274324' }}>{t.cart.total}</span>
+                <span style={{ fontFamily: 'var(--font-serif)', fontSize: '1.2rem', color: '#FDAA5C', fontWeight: 600 }}>
+                  {calculateTotal().toFixed(2)} EUR
+                </span>
+              </div>
+            </div>
+
+            {/* Checkout button */}
+            <button
+              onClick={() => setScreen("payment")}
+              style={{ ...btnBase, padding: '0.7rem', background: '#274324', color: '#F7D08D', width: '100%', fontSize: '0.8rem', flexShrink: 0 }}
+            >
+              {t.cart.checkout}
+            </button>
+            <button
+              onClick={clearCart}
+              style={{ ...btnBase, padding: '0.4rem', background: 'transparent', color: 'rgba(180,40,40,0.6)', border: 'none', width: '100%', fontWeight: 400, fontSize: '0.65rem', flexShrink: 0 }}
+            >
+              {t.cart.cancelOrder}
+            </button>
           </div>
         )}
       </div>
-    </div>
+    </ArchLayout>
   )
 }

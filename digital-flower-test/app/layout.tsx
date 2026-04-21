@@ -1,16 +1,21 @@
 import type { Metadata, Viewport } from 'next'
-import { Cormorant_Garamond, Inter } from 'next/font/google'
+import { Cormorant_Garamond, Inter, Sulphur_Point } from 'next/font/google'
 import { Analytics } from '@vercel/analytics/next'
 import './globals.css'
 
-const cormorant = Cormorant_Garamond({ 
+const cormorant = Cormorant_Garamond({
   subsets: ["latin"],
   weight: ["400", "500", "600", "700"],
   variable: "--font-serif"
 });
-const inter = Inter({ 
+const inter = Inter({
   subsets: ["latin"],
   variable: "--font-sans"
+});
+const sulphurPoint = Sulphur_Point({
+  subsets: ["latin"],
+  weight: ["300", "400", "700"],
+  variable: "--font-display"
 });
 
 export const metadata: Metadata = {
@@ -50,7 +55,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${cormorant.variable} ${inter.variable} font-sans antialiased`}>
+      <body className={`${cormorant.variable} ${inter.variable} ${sulphurPoint.variable} font-display antialiased`}>
         {children}
         <Analytics />
       </body>

@@ -1,10 +1,7 @@
 "use client"
 
 import { useKioskStore, translations, sampleBouquets, type Bouquet } from "@/lib/kiosk-store"
-import { Button } from "@/components/ui/button"
-import { Card, CardContent } from "@/components/ui/card"
-import { ArrowLeft, Home } from "lucide-react"
-import { Progress } from "@/components/ui/progress"
+import { ArchLayout } from "./arch-layout"
 import Image from "next/image"
 
 interface RecommendationsScreenProps {
@@ -15,13 +12,11 @@ export function RecommendationsScreen({ onHomeClick }: RecommendationsScreenProp
   const { language, recipient, occasion, setSelectedBouquet, setScreen } = useKioskStore()
   const t = translations[language]
 
-  // Filter bouquets based on recipient and occasion
   const filteredBouquets = sampleBouquets.filter((bouquet) => {
     if (!recipient || !occasion) return false
     return bouquet.recipients.includes(recipient) && bouquet.occasions.includes(occasion)
   })
 
-  // Take first 9 bouquets for 3x3 grid
   const displayBouquets = filteredBouquets.slice(0, 9)
 
   const handleSelectBouquet = (bouquet: Bouquet) => {
@@ -30,94 +25,112 @@ export function RecommendationsScreen({ onHomeClick }: RecommendationsScreenProp
   }
 
   return (
-    <div className="h-full flex flex-col p-4">
-      {/* Navigation */}
-      <div className="flex items-center justify-between mb-3">
-        <Button
-          variant="ghost"
-          size="sm"
-          className="gap-1 text-xs"
-          onClick={() => setScreen("occasion")}
+    <ArchLayout
+      onBack={() => setScreen("occasion")}
+      onHome={onHomeClick}
+      title={t.recommendations.title}
+    >
+      <div className="flex flex-col h-full px-4 pt-2 pb-3">
+        <p
+          style={{
+            fontFamily: 'var(--font-display)',
+            fontSize: '0.7rem',
+            color: '#724E2A',
+            textAlign: 'center',
+            marginBottom: '0.6rem',
+          }}
         >
-          <ArrowLeft className="h-4 w-4" />
-          {t.navigation.back}
-        </Button>
-        <Button
-          variant="ghost"
-          size="sm"
-          className="gap-1 text-xs"
-          onClick={onHomeClick}
-        >
-          <Home className="h-4 w-4" />
-          {t.navigation.home}
-        </Button>
-      </div>
-
-      {/* Progress indicator */}
-      <div className="w-full mb-3 px-2">
-        <div className="flex items-center justify-between mb-1">
-          <span className="text-[10px] text-muted-foreground">Step 3 of 4</span>
-        </div>
-        <Progress value={75} className="h-1" />
-      </div>
-
-      {/* Content */}
-      <div className="flex-1 flex flex-col items-center w-full overflow-auto px-2">
-        <h1 className="font-serif text-lg text-foreground text-center mb-1">
-          {t.recommendations.title}
-        </h1>
-        <p className="text-xs text-muted-foreground text-center mb-4">
           {t.recommendations.subtitle}
         </p>
 
-        {/* 3x3 Bouquet Grid */}
-        <div className="grid grid-cols-3 gap-2 w-full max-w-xs">
-          {displayBouquets.map((bouquet) => (
-            <Card
-              key={bouquet.id}
-              className="cursor-pointer border hover:border-primary hover:shadow-md transition-all group overflow-hidden"
-              onClick={() => handleSelectBouquet(bouquet)}
-            >
-              <CardContent className="p-0">
-                <div className="relative aspect-square bg-muted">
+        {/* 3×3 bouquet grid */}
+        {displayBouquets.length > 0 ? (
+          <div
+            style={{
+              display: 'grid',
+              gridTemplateColumns: 'repeat(3, 1fr)',
+              gap: '0.5rem',
+              flex: 1,
+            }}
+          >
+            {displayBouquets.map((bouquet) => (
+              <button
+                key={bouquet.id}
+                onClick={() => handleSelectBouquet(bouquet)}
+                style={{
+                  background: 'none',
+                  border: '1.5px solid rgba(114, 78, 42, 0.2)',
+                  cursor: 'pointer',
+                  padding: 0,
+                  overflow: 'hidden',
+                  display: 'flex',
+                  flexDirection: 'column',
+                }}
+              >
+                <div style={{ position: 'relative', aspectRatio: '1', width: '100%' }}>
                   <Image
                     src={bouquet.image}
                     alt={bouquet.name}
                     fill
                     className="object-cover"
                   />
-                  {/* Price indicator badge */}
-                  <div className="absolute top-0.5 right-0.5 bg-background/90 px-1 py-0.5 rounded text-[10px] font-medium">
+                  {/* Price badge */}
+                  <div
+                    style={{
+                      position: 'absolute',
+                      top: '4px',
+                      right: '4px',
+                      background: '#FDAA5C',
+                      color: '#274324',
+                      fontFamily: 'var(--font-display)',
+                      fontSize: '0.55rem',
+                      fontWeight: 700,
+                      padding: '2px 5px',
+                    }}
+                  >
                     {bouquet.priceIndicator}
                   </div>
                 </div>
-                <div className="p-1 text-center">
-                  <h3 className="font-serif text-[10px] text-foreground group-hover:text-primary transition-colors line-clamp-1">
+                <div style={{ padding: '4px 4px 5px', background: '#EDE2C2' }}>
+                  <p
+                    style={{
+                      fontFamily: 'var(--font-serif)',
+                      fontSize: '0.65rem',
+                      color: '#274324',
+                      textAlign: 'center',
+                      overflow: 'hidden',
+                      textOverflow: 'ellipsis',
+                      whiteSpace: 'nowrap',
+                    }}
+                  >
                     {bouquet.name}
-                  </h3>
+                  </p>
                 </div>
-              </CardContent>
-            </Card>
-          ))}
-        </div>
-
-        {/* If no bouquets found */}
-        {displayBouquets.length === 0 && (
-          <div className="text-center py-6">
-            <p className="text-muted-foreground text-xs">
-              No bouquets found for this selection. Please try different options.
+              </button>
+            ))}
+          </div>
+        ) : (
+          <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: '0.75rem' }}>
+            <p style={{ fontFamily: 'var(--font-display)', fontSize: '0.75rem', color: '#724E2A', textAlign: 'center' }}>
+              No bouquets found for this selection.
             </p>
-            <Button
-              variant="outline"
-              size="sm"
-              className="mt-3 text-xs"
+            <button
               onClick={() => setScreen("recipient")}
+              style={{
+                padding: '0.5rem 1rem',
+                background: '#678F74',
+                color: '#EDE2C2',
+                fontFamily: 'var(--font-display)',
+                fontSize: '0.7rem',
+                border: 'none',
+                cursor: 'pointer',
+              }}
             >
               Start Over
-            </Button>
+            </button>
           </div>
         )}
       </div>
-    </div>
+    </ArchLayout>
   )
 }
